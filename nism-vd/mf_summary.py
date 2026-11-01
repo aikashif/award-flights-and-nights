@@ -1,24 +1,7 @@
-"""NISM V-D Mutual Fund module (Ch1-12) summary -> HTML -> PDF.
-
-Run: python3 nism-vd/mf_summary.py   (needs node + playwright for the PDF step)
-"""
-import html, json, pathlib, subprocess, re
-
-def T(head, rows, cls=""):
-    h = "".join(f"<th>{c}</th>" for c in head)
-    b = "".join("<tr>" + "".join(f"<td>{c}</td>" for c in r) + "</tr>" for r in rows)
-    return f'<table class="{cls}"><thead><tr>{h}</tr></thead><tbody>{b}</tbody></table>'
-def KV(rows):
-    return '<table class="kv"><tbody>' + "".join(f"<tr><th>{k}</th><td>{v}</td></tr>" for k, v in rows) + "</tbody></table>"
-def K(*w):
-    return '<div class="kw">' + "".join(f"<span>{x}</span>" for x in w) + "</div>"
-def F(t):
-    return f'<pre class="f">{t}</pre>'
-def TRAP(t):
-    return f'<div class="trap"><b>Trap</b> {t}</div>'
-def L(*items):
-    return "<ul>" + "".join(f"<li>{i}</li>" for i in items) + "</ul>"
-V = '<span class="v">‡</span>'
+"""NISM V-D Mutual Fund module (Ch1-12) summary -> PDF. Run: python3 nism-vd/mf_summary.py"""
+import sys, pathlib
+sys.path.insert(0, str(pathlib.Path(__file__).parent))
+from summary_lib import *
 
 CH = []
 def chap(n, title, marks, stars):
@@ -694,91 +677,10 @@ sub("Model portfolios by life stage", 3,
   T(["Investor","Equity : Debt : Gold (illustrative)"],
     [["Young, aggressive","70–80 : 15–25 : 5–10"],["Mid-life, moderate","50–60 : 30–40 : 10"],["Near retirement","30–40 : 50–60 : 10"],["Retired","20–30 : 60–70 : 10"]]))
 
-# ---------------------------------------------------------------- RENDER
-def stars(n):
-    return f'<span class="st s{n}">' + "★"*n + '<i>' + "★"*(5-n) + '</i></span>'
 
-total_subs = sum(len(c["subs"]) for c in CH)
-five = [(c["n"], s["t"]) for c in CH for s in c["subs"] if s["s"] == 5]
-four = [(c["n"], s["t"]) for c in CH for s in c["subs"] if s["s"] == 4]
-
-idx_rows = "".join(
-    f'<tr><td>{c["n"]}</td><td>{c["title"]}</td><td class="n">{c["marks"]}</td><td>{stars(c["stars"])}</td>'
-    f'<td class="n">{len(c["subs"])}</td><td class="n">{sum(1 for s in c["subs"] if s["s"]==5)}</td></tr>' for c in CH)
-
-def fivelist(items):
-    out = {}
-    for n, t in items: out.setdefault(n, []).append(t)
-    return "".join(f'<p><b>Ch {n}</b> · ' + " · ".join(v) + "</p>" for n, v in out.items())
-
-body = []
-for c in CH:
-    subs = "".join(
-        f'<div class="sub-t"><div class="sh"><h3>{s["t"]}</h3>{stars(s["s"])}</div>{s["b"]}</div>' for s in c["subs"])
-    body.append(f'''<section class="ch"><div class="chh"><span class="cn">{c["n"]:02d}</span><div><h2>{c["title"]}</h2>
-      <p class="meta">≈{c["marks"]} marks · {len(c["subs"])} subtopics · chapter priority {stars(c["stars"])}</p></div></div><div class="body2">{subs}</div></section>''')
-
-HTML = f'''<!doctype html><html><head><meta charset="utf-8"><title>NISM V-D Mutual Fund Module Summary</title>
-<style>
-@page {{ size: A4; margin: 11mm 10mm 12mm 10mm; }}
-:root {{ --ink:#14202b; --muted:#56636f; --line:#cfd7df; --teal:#0d6a73; --teal-soft:#e2f1f2; --amber:#b86e00; --amber-soft:#fbefd9; --red:#b3261e; --red-soft:#fbe7e5; }}
-* {{ box-sizing:border-box; }}
-body {{ font-family: Carlito, "Liberation Sans", "DejaVu Sans", sans-serif; color:var(--ink); font-size:8.6pt; line-height:1.28; margin:0; background:#fff; }}
-h1,h2,h3 {{ font-family: "Inter Display", Inter, Carlito, sans-serif; margin:0; line-height:1.12; }}
-h1 {{ font-size:22pt; letter-spacing:-.01em; }}
-h2 {{ font-size:13.5pt; }}
-h3 {{ font-size:9.3pt; font-weight:700; }}
-.cover {{ border-bottom:2.5pt solid var(--ink); padding-bottom:6pt; margin-bottom:8pt; }}
-.cover .eyebrow {{ font:600 7.4pt Inter, sans-serif; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }}
-.lead {{ color:var(--muted); margin:4pt 0 0; font-size:9pt; }}
-.legend {{ display:flex; gap:14pt; flex-wrap:wrap; margin:6pt 0; font-size:8.2pt; }}
-.st {{ font-family:"DejaVu Sans", sans-serif; color:var(--amber); letter-spacing:.5pt; font-size:8pt; white-space:nowrap; }}
-.st i {{ color:#d9dde1; font-style:normal; }}
-.st.s5 {{ color:var(--red); }}
-table {{ border-collapse:collapse; width:100%; margin:3pt 0; page-break-inside:auto; }}
-tr {{ page-break-inside:avoid; }}
-th,td {{ border:.5pt solid var(--line); padding:2pt 4pt; vertical-align:top; text-align:left; }}
-thead th {{ background:var(--teal-soft); font-weight:700; }}
-.kv th {{ width:28%; background:#f4f6f8; font-weight:700; }}
-td.n {{ text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap; }}
-.kw {{ display:flex; flex-wrap:wrap; gap:2.5pt; margin:3pt 0; }}
-.kw span {{ border:.5pt solid var(--line); border-radius:6pt; padding:0 5pt; background:#fafbfc; font-size:8pt; }}
-pre.f {{ font-family:"JetBrains Mono", "DejaVu Sans Mono", monospace; font-size:7.3pt; background:#f4f6f8; border-left:2pt solid var(--teal); padding:4pt 6pt; margin:3pt 0; white-space:pre-wrap; }}
-.trap {{ background:var(--red-soft); border-left:2pt solid var(--red); padding:2.5pt 6pt; margin:3pt 0; font-size:8.2pt; }}
-.trap b {{ color:var(--red); margin-right:4pt; text-transform:uppercase; font-size:7.2pt; letter-spacing:.05em; }}
-.v {{ color:var(--red); font-weight:700; }}
-ul {{ margin:2pt 0; padding-left:12pt; }} li {{ margin:0; }}
-p {{ margin:2pt 0; }} .sub {{ color:var(--muted); }}
-.ch {{ margin-top:8pt; }}
-.body2 {{ columns:2; column-gap:9pt; column-fill:balance; }}
-.chh {{ break-after:avoid; break-inside:avoid; display:flex; gap:8pt; align-items:center; border-bottom:1.5pt solid var(--ink); padding-bottom:4pt; margin-bottom:5pt; }}
-.cn {{ font:800 22pt "Inter Display", Inter, sans-serif; color:var(--teal); line-height:1; }}
-.meta {{ color:var(--muted); font-size:8pt; margin:1pt 0 0; }}
-.sub-t {{ margin:0 0 5pt; break-inside:avoid; }}
-.sh {{ display:flex; justify-content:space-between; align-items:baseline; gap:6pt; border-bottom:.5pt dotted var(--line); margin-bottom:2pt; padding-bottom:1pt; }}
-.prio {{ background:var(--amber-soft); padding:5pt 7pt; margin:5pt 0; }}
-.prio p {{ margin:1.5pt 0; }}
-.cols {{ columns:2; column-gap:10pt; }}
-.foot {{ color:var(--muted); font-size:7.4pt; margin-top:6pt; }}
-</style></head><body>
-<div class="cover">
-  <p class="eyebrow">NISM-Series-V-D · Module 1 · Mutual Fund Distributors (Ch 1–12)</p>
-  <h1>NISM V-D Mutual Fund Module Summary</h1>
-  <p class="lead">All 12 mutual fund chapters, {total_subs} subtopics, in tables and keywords. Every subtopic has a star rating for exam importance. Read 5★ first, then 4★.</p>
-  <div class="legend"><span>{stars(5)} must know, asked often</span><span>{stars(4)} high</span><span>{stars(3)} medium</span><span>{stars(2)} low</span><span>{stars(1)} skim</span><span><span class="v">‡</span> rule or number that changes often; check workbook edition</span></div>
-</div>
-<table><thead><tr><th>Ch</th><th>Chapter</th><th>Marks</th><th>Priority</th><th>Subtopics</th><th>5★</th></tr></thead><tbody>{idx_rows}</tbody></table>
-<div class="prio"><h3>5★ list ({len(five)}) — read these first</h3>{fivelist(five)}</div>
-<div class="prio" style="background:#f4f6f8"><h3>4★ list ({len(four)})</h3>{fivelist(four)}</div>
-<p class="foot">Built from the NISM V-A / V-D mutual fund syllabus (V-D Ch 1–12 = V-A chapters). Marks: official where known (Ch1 5, Ch2 4, Ch3 3, Ch8 3, Ch9 10, Ch12 10), others estimated. Not copied from the workbook.</p>
-{"".join(body)}
-</body></html>'''
-
-here = pathlib.Path(__file__).parent
-(here / "mf-summary.html").write_text(HTML)
-js = f'''const {{chromium}}=require('playwright');(async()=>{{const b=await chromium.launch();const p=await b.newPage();
-await p.goto('file://{(here / "mf-summary.html").resolve()}');await p.pdf({{path:'{(here / "NISM-VD-MF-Summary.pdf").resolve()}',format:'A4',printBackground:true,
-displayHeaderFooter:true,headerTemplate:'<span></span>',footerTemplate:'<div style="font-size:7px;width:100%;text-align:center;color:#777;font-family:Carlito">NISM V-D · Mutual Fund Module Summary · <span class="pageNumber"></span>/<span class="totalPages"></span></div>',
-margin:{{top:'11mm',bottom:'13mm',left:'10mm',right:'10mm'}}}});await b.close();}})();'''
-subprocess.run(["node", "-e", js], check=True)
-print("subtopics", total_subs, "5-star", len(five), "4-star", len(four))
+render(CH,
+  eyebrow="NISM-Series-V-D · Module 1 · Mutual Fund Distributors (Ch 1–12)",
+  title="NISM V-D Mutual Fund Module Summary",
+  lead="All 12 mutual fund chapters, {n} subtopics, in tables and keywords. Every subtopic has a star rating for exam importance. Read 5★ first, then 4★.",
+  foot="Built from the NISM V-A / V-D mutual fund syllabus (V-D Ch 1–12 = V-A chapters). Marks: official where known (Ch1 5, Ch2 4, Ch3 3, Ch8 3, Ch9 10, Ch12 10), others estimated. Not copied from the workbook.",
+  html_name="mf-summary.html", pdf_name="NISM-VD-MF-Summary.pdf", footer_label="NISM V-D · Mutual Fund Module Summary")
