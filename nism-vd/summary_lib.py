@@ -48,7 +48,7 @@ def render(CH, eyebrow, title, lead, foot, html_name, pdf_name, footer_label):
     for c in CH:
         subs = "".join(
             f'<div class="sub-t"><div class="sh"><h3>{s["t"]}</h3>{stars(s["s"])}</div>{s["b"]}</div>' for s in c["subs"])
-        body.append(f'''<section class="ch"><div class="chh"><span class="cn">{c["n"]:02d}</span><div><h2>{c["title"]}</h2>
+        body.append(f'''<section class="ch"><div class="chh"><span class="cn">{(format(c["n"], "02d") if isinstance(c["n"], int) else c["n"])}</span><div><h2>{c["title"]}</h2>
           <p class="meta">≈{c["marks"]} marks · {len(c["subs"])} subtopics · chapter priority {stars(c["stars"])}</p></div></div><div class="body2">{subs}</div></section>''')
 
     HTML = f'''<!doctype html><html><head><meta charset="utf-8"><title>{title}</title>
