@@ -1,35 +1,13 @@
 """Build the NISM V-D quiz bank (Ch15, Ch16, Ch13, Ch20) and inject it into quiz.html.
 
-Run: python3 nism-vd/build_quiz.py
+Run: python3 nism-vd/build_quiz.py  (derivatives quiz)
 Numerical questions compute their answers here, so the key is exact.
 """
-import json, math, random, pathlib
+import math, sys, pathlib
+sys.path.insert(0, str(pathlib.Path(__file__).parent))
+from quiz_lib import make_bank, inr, num, build
 
-BANK = []
-
-def Q(ch, lvl, q, right, why, *wrongs):
-    """lvl: 'S' = exam level, 'H' = harder. wrongs: (text, why-this-is-wrong)."""
-    assert len(wrongs) == 3, q
-    BANK.append({"ch": ch, "lvl": lvl, "q": q, "right": right, "why": why, "wrongs": list(wrongs)})
-
-def inr(x, d=0):
-    """Indian digit grouping."""
-    neg = x < 0
-    x = abs(x)
-    s = f"{x:.{d}f}"
-    whole, _, frac = s.partition(".")
-    if len(whole) > 3:
-        head, tail = whole[:-3], whole[-3:]
-        parts = []
-        while len(head) > 2:
-            parts.insert(0, head[-2:]); head = head[:-2]
-        if head: parts.insert(0, head)
-        whole = ",".join(parts + [tail])
-    out = whole + ("." + frac if frac else "")
-    return ("−" if neg else "") + "₹" + out
-
-def num(x, d=2):
-    return f"{x:,.{d}f}"
+BANK, Q = make_bank()
 
 # =====================================================================
 # CH 13  BASICS OF DERIVATIVES
@@ -1061,41 +1039,9 @@ for md, dy, P in [(7.2, 0.50, 102), (5.5, -0.30, 98.5)]:
 # =====================================================================
 # BUILD
 # =====================================================================
-rng = random.Random(42)
-order = [15, 16, 13, 20]
-out = {"chapters": [], "questions": []}
-names = {15: "Forwards & Futures", 16: "Options", 13: "Basics of Derivatives", 20: "Exchange Traded IR Futures"}
-marks = {15: 15, 16: 13, 13: 10, 20: 10}
-for ch in order:
-    s = [q for q in BANK if q["ch"] == ch and q["lvl"] == "S"]
-    h = [q for q in BANK if q["ch"] == ch and q["lvl"] == "H"]
-    rng.shuffle(s); rng.shuffle(h)
-    seq = []
-    while s or h:
-        seq += [s.pop() for _ in range(min(3, len(s)))]
-        seq += [h.pop() for _ in range(min(2, len(h)))]
-    ids = []
-    for i, q in enumerate(seq, 1):
-        opts = [(q["right"], None)] + q["wrongs"]
-        texts = [o[0] for o in opts]
-        assert len(set(texts)) == 4, (q["q"], texts)
-        idx = list(range(4)); rng.shuffle(idx)
-        qid = f"c{ch}-{i:03d}"
-        out["questions"].append({
-            "id": qid, "ch": ch, "lvl": q["lvl"], "q": q["q"],
-            "o": [opts[j][0] for j in idx],
-            "a": idx.index(0),
-            "why": q["why"],
-            "x": [opts[j][1] for j in idx],
-        })
-        ids.append(qid)
-    out["chapters"].append({"ch": ch, "name": names[ch], "marks": marks[ch], "n": len(ids),
-                            "s": sum(1 for q in seq if q["lvl"] == "S"), "h": sum(1 for q in seq if q["lvl"] == "H")})
-
-here = pathlib.Path(__file__).parent
-tpl = (here / "quiz.template.html").read_text()
-html = tpl.replace("/*__BANK__*/null", json.dumps(out, ensure_ascii=False, separators=(",", ":")))
-(here / "quiz.html").write_text(html)
-for c in out["chapters"]:
-    print(c)
-print("total", len(out["questions"]))
+build(BANK, [15, 16, 13, 20],
+      {15: "Forwards & Futures", 16: "Options", 13: "Basics of Derivatives", 20: "Exchange Traded IR Futures"},
+      {15: 15, 16: 13, 13: 10, 20: 10},
+      title="NISM V-D Practice Quiz", eyebrow="NISM-Series-V-D · derivatives practice simulation",
+      sub="Top 4 derivatives chapters by marks. 5 questions for every expected exam question: 3 at exam level, 2 harder. Instant answer and reason after each click. Skip any question and come back to it later. Your time is recorded.",
+      storage_key="nismvd-attempts-v1", out_name="quiz.html")

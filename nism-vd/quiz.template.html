@@ -1,4 +1,4 @@
-<title>NISM V-D Practice Quiz</title>
+<title>__TITLE__</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@600;700&family=Source+Sans+3:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
@@ -22,32 +22,35 @@
   --ok:#7fd18f; --ok-soft:#163222; --bad:#ff8a80; --bad-soft:#3b1b19; color-scheme:dark}
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:16px;line-height:1.45}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
 .wrap{max-width:820px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 60px}
 h1,h2,h3{font-family:var(--f-display);margin:0;line-height:1.15;text-wrap:balance}
 h1{font-size:1.9rem}
-h2{font-size:1.35rem}
+h2{font-size:1.3rem}
 .sub{color:var(--muted);margin:4px 0 0}
 .lvl{font:600 .72rem var(--f-body);text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
 button{font:inherit;color:inherit;cursor:pointer}
 button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .btn{background:var(--fg);color:var(--bg);border:0;border-radius:4px;padding:9px 16px;font-weight:700}
 .btn.ghost{background:transparent;color:var(--fg);border:1px solid var(--line)}
+.btn.warn{background:var(--accent);color:var(--surface)}
 .btn:disabled{opacity:.45;cursor:default}
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
 .chip{font:600 .75rem var(--f-mono);padding:2px 7px;border-radius:3px;background:var(--teal-soft);color:var(--teal)}
 .chip.mk{background:var(--accent-soft);color:var(--accent)}
+.chip.sk{background:var(--bad-soft);color:var(--bad)}
 /* home */
-.cards{display:grid;gap:12px;margin-top:18px}
-.card{background:var(--surface);border:1px solid var(--line);padding:14px 16px;display:grid;grid-template-columns:1fr auto;gap:8px 16px;align-items:center}
+.cards{display:grid;gap:10px;margin-top:16px}
+.card{background:var(--surface);border:1px solid var(--line);padding:12px 14px;display:grid;grid-template-columns:1fr auto;gap:6px 14px;align-items:center}
 .card>*{min-width:0}
-.card .bar{grid-column:1/-1;height:6px;background:var(--line);border-radius:3px;overflow:hidden}
+.card .bar{grid-column:1/-1;height:6px;background:var(--line);border-radius:3px;overflow:hidden;display:flex}
 .card .bar i{display:block;height:100%;background:var(--teal)}
+.card .bar b{display:block;height:100%;background:var(--accent)}
 .card .acts{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
-.rank{font:700 1.6rem var(--f-display);color:var(--accent);margin-right:6px}
+.rank{font:700 1.4rem var(--f-display);color:var(--accent);margin-right:6px}
 .note{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--accent);padding:10px 12px;margin-top:16px;font-size:.92rem}
 /* quiz */
 .status{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--surface);border-bottom:1px solid var(--line);margin:0 calc(-1*max(16px,env(safe-area-inset-left,0px)));padding:8px max(16px,env(safe-area-inset-left,0px));display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;font-size:.88rem}
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
 .status b{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
 .status .sp{flex:1}
 .prog{height:4px;background:var(--line);margin-top:10px}
@@ -71,12 +74,16 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .others{font-size:.88rem;color:var(--muted);margin:0;padding-left:18px}
 .others li{margin:3px 0}
 .qnav{display:flex;gap:8px;justify-content:space-between;flex-wrap:wrap;margin-top:14px}
+.qnav>div{display:flex;gap:8px;flex-wrap:wrap}
+.panel{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--accent);padding:16px;margin-top:18px;display:grid;gap:10px}
+.panel ol{margin:0;padding-left:20px;font-size:.92rem}
+.panel ol li{margin:3px 0}
 /* summary */
 .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin-top:14px}
 .tile{background:var(--surface);border:1px solid var(--line);padding:10px 12px}
 .tile b{display:block;font:700 1.5rem var(--f-display);font-variant-numeric:tabular-nums}
 .tile span{font-size:.8rem;color:var(--muted)}
-.tile.good b{color:var(--ok)}.tile.poor b{color:var(--bad)}
+.tile.good b{color:var(--ok)}.tile.poor b{color:var(--bad)}.tile.skip b{color:var(--accent)}
 .tbl{overflow-x:auto;margin-top:10px}
 table{border-collapse:collapse;width:100%;font-size:.88rem;background:var(--surface)}
 th,td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
@@ -84,6 +91,7 @@ th{background:var(--teal-soft)}
 td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
 .review{display:grid;gap:10px;margin-top:10px}
 .rv{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--bad);padding:10px 12px;font-size:.92rem}
+.rv.sk{border-left-color:var(--accent)}
 .rv p{margin:4px 0}
 .saved{font-size:.8rem;color:var(--muted)}
 @media (max-width:520px){.vrow{grid-template-columns:1fr;gap:2px}.card{grid-template-columns:1fr}.card .acts{justify-content:flex-start}}
@@ -91,9 +99,9 @@ td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
 
 <div class="wrap" id="app">
   <header>
-    <p class="lvl">NISM-Series-V-D · practice simulation</p>
-    <h1>NISM V-D Practice Quiz</h1>
-    <p class="sub">Top 4 chapters by marks. 5 questions for every expected exam question: 3 at exam level, 2 harder. Instant answer and reason after each click. Your time is recorded.</p>
+    <p class="lvl">__EYEBROW__</p>
+    <h1>__TITLE__</h1>
+    <p class="sub">__SUB__</p>
   </header>
   <div id="view"></div>
 </div>
@@ -107,12 +115,12 @@ const fmt = s => { s = Math.max(0, Math.round(s)); const m = Math.floor(s/60), r
 const byCh = {}; BANK.questions.forEach(q => (byCh[q.ch] = byCh[q.ch] || []).push(q));
 const qById = Object.fromEntries(BANK.questions.map(q => [q.id, q]));
 
-/* ---------- storage: db (shared record Claude can read) + localStorage (resume) ---------- */
+/* ---------- storage: db (record Claude can read) + localStorage (resume on this device) ---------- */
 let db = null, dbReady = false;
-const LS = "nismvd-attempts-v1";
+const LS = BANK.storageKey;
 function lsGet(){ try { return JSON.parse(localStorage.getItem(LS) || "{}"); } catch(e){ return {}; } }
 function lsPut(all){ try { localStorage.setItem(LS, JSON.stringify(all)); } catch(e){} }
-let attempts = lsGet(); // id -> attempt
+let attempts = lsGet();
 let saveChain = Promise.resolve();
 function persist(att, patch){
   attempts[att.id] = att; lsPut(attempts);
@@ -126,26 +134,27 @@ function setSaved(t){ const el = $("#saved"); if (el) el.textContent = t; }
     const d = window.claude && await window.claude.use("db");
     if (!d) return;
     db = d;
-    const timer = setTimeout(() => {}, 10000);
     const snap = await db.collection("attempts").get();
-    clearTimeout(timer);
     snap.docs.forEach(doc => { const a = doc.data(); if (a && a.id && (!attempts[a.id] || (a.updated||0) >= (attempts[a.id].updated||0))) attempts[a.id] = JSON.parse(JSON.stringify(a)); });
     lsPut(attempts); dbReady = true;
     if (state.view === "home") renderHome();
   } catch(e) { /* page works without db */ }
 })();
 
-/* ---------- state ---------- */
-const state = { view: "home", att: null, idx: 0, qStart: 0, qAcc: 0, hidden: false, tick: null };
+/* ---------- helpers ---------- */
+const state = { view: "home", att: null, queue: [], idx: 0, qStart: 0, qAcc: 0, hidden: false, tick: null, answered: false, lastSec: 0 };
+const chInfo = ch => BANK.chapters.find(c => c.ch === ch);
 function latest(ch, status){
   return Object.values(attempts).filter(a => a.ch === ch && (!status || a.status === status)).sort((a,b) => (b.started||0) - (a.started||0))[0];
 }
+function pending(att){ return att.qids.filter(id => !att.answers[id]); }
+function skippedIds(att){ return att.qids.filter(id => !att.answers[id] && att.skipped && att.skipped[id]); }
 function stats(att){
   const ans = Object.values(att.answers || {});
   const n = ans.length, ok = ans.filter(a => a.ok).length;
   const sec = ans.reduce((t,a) => t + (a.sec||0), 0);
   const lv = l => { const x = ans.filter(a => a.lvl === l); return { n: x.length, ok: x.filter(a => a.ok).length, sec: x.reduce((t,a)=>t+(a.sec||0),0) }; };
-  return { n, ok, wrong: n - ok, sec, S: lv("S"), H: lv("H"), neg: ok - 0.1*(n-ok) };
+  return { n, ok, wrong: n - ok, sec, S: lv("S"), H: lv("H"), neg: ok - 0.1*(n-ok), skipped: skippedIds(att).length, left: pending(att).length };
 }
 
 /* ---------- home ---------- */
@@ -153,44 +162,63 @@ function renderHome(){
   state.view = "home"; stopTick();
   const cards = BANK.chapters.map((c, i) => {
     const act = latest(c.ch, "active"), done = latest(c.ch, "done");
-    const sAct = act && stats(act), sDone = done && stats(done);
-    const pct = act ? Math.round(sAct.n / c.n * 100) : (done ? 100 : 0);
+    const cur = act || done;
+    const s = cur && stats(cur);
+    const doneSk = done && !act ? skippedIds(done).length : 0;
+    const pctA = cur ? s.n / c.n * 100 : 0, pctS = cur ? s.skipped / c.n * 100 : 0;
+    let line = "Not started.";
+    if (act) line = `In progress: ${s.n}/${c.n} answered, ${s.ok} correct${s.skipped ? `, <b>${s.skipped} skipped</b>` : ""}, ${fmt(s.sec)} used.`;
+    else if (done) line = `Finished: ${s.ok}/${s.n} correct (${Math.round(s.ok/Math.max(1,s.n)*100)}%) in ${fmt(s.sec)}${doneSk ? `, <b>${doneSk} skipped still open</b>` : ""}.`;
+    const btns = [];
+    if (act) { btns.push(`<button class="btn" data-resume="${act.id}">Resume</button>`); if (s.skipped) btns.push(`<button class="btn warn" data-skips="${act.id}">Answer ${s.skipped} skipped</button>`); btns.push(`<button class="btn ghost" data-start="${c.ch}">Restart</button>`); }
+    else { if (doneSk) btns.push(`<button class="btn warn" data-skips="${done.id}">Answer ${doneSk} skipped</button>`); btns.push(`<button class="btn ${doneSk ? "ghost" : ""}" data-start="${c.ch}">${done ? "Try again" : "Start"}</button>`); }
+    if (done) btns.push(`<button class="btn ghost" data-sum="${done.id}">Last result</button>`);
     return `<div class="card">
       <div>
         <h2><span class="rank">${i+1}</span>Ch ${c.ch} · ${esc(c.name)}</h2>
-        <div class="chips"><span class="chip mk">${c.marks} exam marks</span><span class="chip">${c.n} questions</span><span class="chip">${c.s} exam-level · ${c.h} harder</span></div>
-        <p class="sub">${act ? `In progress: ${sAct.n}/${c.n} done, ${sAct.ok} correct, ${fmt(sAct.sec)} used.` : done ? `Last finished: ${sDone.ok}/${sDone.n} correct (${Math.round(sDone.ok/Math.max(1,sDone.n)*100)}%) in ${fmt(sDone.sec)}.` : "Not started."}</p>
+        <div class="chips"><span class="chip mk">${esc(String(c.marks))} exam marks</span><span class="chip">${c.n} questions</span><span class="chip">${c.s} exam-level · ${c.h} harder</span></div>
+        <p class="sub">${line}</p>
       </div>
-      <div class="acts">
-        ${act ? `<button class="btn" data-resume="${act.id}">Resume</button><button class="btn ghost" data-start="${c.ch}">Restart</button>` : `<button class="btn" data-start="${c.ch}">${done ? "Try again" : "Start"}</button>`}
-        ${done ? `<button class="btn ghost" data-sum="${done.id}">Last result</button>` : ""}
-      </div>
-      <div class="bar"><i style="width:${pct}%"></i></div>
+      <div class="acts">${btns.join("")}</div>
+      <div class="bar"><i style="width:${pctA}%"></i><b style="width:${pctS}%"></b></div>
     </div>`;
   }).join("");
-  $("#view").innerHTML = `<div class="note"><b>How it works:</b> pick a chapter. Click an option — you see right/wrong, the reason, and why your choice was wrong, at once. The timer runs per question and pauses when you leave the tab. Real exam pace: <b>${EXAM_PACE} s per question</b>. Scoring shown with the exam's −0.1 negative marking.</div>
+  $("#view").innerHTML = `<div class="note"><b>How it works:</b> pick a chapter. Click an option to see right/wrong and the reason at once, or press <b>Skip</b> to come back later. When you end a chapter, you can answer the skipped ones then or keep them for later — the chapter card keeps an <b>Answer skipped</b> button until you do. Timer runs per question and pauses when you leave the tab. Exam pace: <b>${EXAM_PACE} s per question</b>. Keys: A–D answer · S skip · Enter next.</div>
   <div class="cards">${cards}</div>
-  <p class="saved">${db ? (dbReady ? "Your answers are saved to this page's record, so Claude can review them later." : "Connecting to the page's record…") : "Answers are saved on this device. Sign in to claude.ai to save them where Claude can review them."}</p>`;
-  $("#view").querySelectorAll("[data-start]").forEach(b => b.onclick = () => startChapter(+b.dataset.start));
-  $("#view").querySelectorAll("[data-resume]").forEach(b => b.onclick = () => resume(attempts[b.dataset.resume]));
-  $("#view").querySelectorAll("[data-sum]").forEach(b => b.onclick = () => renderSummary(attempts[b.dataset.sum]));
+  <p class="saved">${db ? (dbReady ? "Your answers are saved to this page's record, so Claude can review them later." : "Connecting to the page's record…") : "Answers are saved on this device. Open this page signed in to claude.ai to save them where Claude can review them."}</p>`;
+  const v = $("#view");
+  v.querySelectorAll("[data-start]").forEach(b => b.onclick = () => startChapter(+b.dataset.start));
+  v.querySelectorAll("[data-resume]").forEach(b => b.onclick = () => resume(attempts[b.dataset.resume]));
+  v.querySelectorAll("[data-skips]").forEach(b => b.onclick = () => answerSkipped(attempts[b.dataset.skips]));
+  v.querySelectorAll("[data-sum]").forEach(b => b.onclick = () => renderSummary(attempts[b.dataset.sum]));
   window.scrollTo(0,0);
 }
 
-/* ---------- quiz ---------- */
+/* ---------- quiz flow ---------- */
 function startChapter(ch, onlyIds){
   const old = latest(ch, "active");
   if (old) { old.status = "abandoned"; old.updated = Date.now(); persist(old, { status: "abandoned", updated: old.updated }); }
   const ids = onlyIds || byCh[ch].map(q => q.id);
-  const att = { id: `ch${ch}-${Date.now()}`, ch, started: Date.now(), updated: Date.now(), status: "active", mode: onlyIds ? "retry-wrong" : "full", qids: ids, answers: {} };
+  const att = { id: `ch${ch}-${Date.now()}`, ch, started: Date.now(), updated: Date.now(), status: "active", mode: onlyIds ? "retry-wrong" : "full", qids: ids, answers: {}, skipped: {} };
   persist(att);
-  state.att = att; state.idx = 0; openQuestion();
+  state.att = att; state.queue = ids.slice(); state.idx = 0; state.qmode = "main"; openQuestion();
 }
 function resume(att){
-  state.att = att;
-  const i = att.qids.findIndex(id => !att.answers[id]);
-  state.idx = i < 0 ? att.qids.length - 1 : i;
-  openQuestion();
+  att.skipped = att.skipped || {};
+  state.att = att; state.qmode = "main";
+  state.queue = att.qids.slice();
+  // continue from the first question never answered or skipped
+  const i = att.qids.findIndex(id => !att.answers[id] && !att.skipped[id]);
+  if (i < 0) { endScreen(); return; }
+  state.idx = i; openQuestion();
+}
+function answerSkipped(att){
+  att.skipped = att.skipped || {};
+  const ids = skippedIds(att);
+  if (!ids.length) { renderSummary(att); return; }
+  state.reopened = att.status === "done";
+  if (att.status === "done") { att.status = "active"; att.updated = Date.now(); persist(att, { status: "active", updated: att.updated }); }
+  state.att = att; state.queue = ids; state.idx = 0; state.qmode = "skipped"; openQuestion();
 }
 function elapsedQ(){ return state.qAcc + (state.hidden ? 0 : (performance.now() - state.qStart)/1000); }
 function startTick(){ stopTick(); state.tick = setInterval(updClock, 500); }
@@ -201,32 +229,34 @@ document.addEventListener("visibilitychange", () => {
   else { state.qStart = performance.now(); state.hidden = false; }
 });
 function updClock(){
+  if (state.view !== "q") return;
   const s = stats(state.att);
-  const q = state.answered ? 0 : elapsedQ();
+  const q = state.answered ? state.lastSec : elapsedQ();
   const qe = $("#qclock"), ce = $("#cclock");
-  if (qe) { qe.textContent = fmt(state.answered ? state.lastSec : q); qe.style.color = (state.answered ? state.lastSec : q) > EXAM_PACE ? "var(--bad)" : ""; }
-  if (ce) ce.textContent = fmt(s.sec + q);
+  if (qe) { qe.textContent = fmt(q); qe.style.color = q > EXAM_PACE ? "var(--bad)" : ""; }
+  if (ce) ce.textContent = fmt(s.sec + (state.answered ? 0 : q));
 }
 function openQuestion(){
   state.view = "q";
-  const att = state.att, id = att.qids[state.idx], q = qById[id];
+  const att = state.att, id = state.queue[state.idx], q = qById[id];
   const prev = att.answers[id];
   state.answered = !!prev; state.lastSec = prev ? prev.sec : 0;
   state.qStart = performance.now(); state.qAcc = 0; state.hidden = document.hidden;
-  const s = stats(att), total = att.qids.length;
-  const ch = BANK.chapters.find(c => c.ch === att.ch);
+  const s = stats(att), total = state.queue.length, ch = chInfo(att.ch);
+  const wasSkipped = !prev && att.skipped && att.skipped[id];
   $("#view").innerHTML = `
     <div class="status">
-      <span><b>Ch ${att.ch}</b> ${esc(ch.name)}${att.mode === "retry-wrong" ? " · retry wrong" : ""}</span>
+      <span><b>Ch ${att.ch}</b> ${esc(ch.name)}${state.qmode === "skipped" ? " · skipped questions" : att.mode === "retry-wrong" ? " · retry wrong" : ""}</span>
       <span>Q <b>${state.idx+1}/${total}</b></span>
-      <span>Score <b>${s.ok}/${s.n}</b></span>
+      <span>Score <b id="score">${s.ok}/${s.n}</b></span>
+      <span>Skipped <b id="skc">${s.skipped}</b></span>
       <span class="sp"></span>
       <span>This Q <b id="qclock">0:00</b></span>
       <span>Total <b id="cclock">0:00</b></span>
     </div>
-    <div class="prog"><i style="width:${s.n/total*100}%"></i></div>
+    <div class="prog"><i id="progbar" style="width:${s.n/att.qids.length*100}%"></i></div>
     <div class="qcard">
-      <div class="chips"><span class="chip ${q.lvl === "H" ? "mk" : ""}">${q.lvl === "H" ? "Harder" : "Exam level"}</span><span class="chip">${q.id}</span></div>
+      <div class="chips"><span class="chip ${q.lvl === "H" ? "mk" : ""}">${q.lvl === "H" ? "Harder" : "Exam level"}</span><span class="chip">${q.id}</span>${wasSkipped ? `<span class="chip sk">skipped earlier</span>` : ""}</div>
       <p class="qtext">${esc(q.q)}</p>
       <div class="opts" role="group" aria-label="Options">
         ${q.o.map((t,i) => `<button class="opt" id="opt-${i}" data-i="${i}"><span class="k">${"ABCD"[i]}</span><span>${esc(t)}</span></button>`).join("")}
@@ -234,42 +264,60 @@ function openQuestion(){
       <div id="verdict"></div>
     </div>
     <div class="qnav">
-      <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <div>
         <button class="btn ghost" id="prevQ" ${state.idx === 0 ? "disabled" : ""}>← Previous</button>
         <button class="btn ghost" id="endCh">End chapter</button>
       </div>
-      <button class="btn" id="nextQ" ${prev ? "" : "disabled"}>${state.idx === total-1 ? "See result" : "Next →"}</button>
+      <div>
+        <button class="btn ghost" id="skipQ" ${prev ? "hidden" : ""}>Skip for now</button>
+        <button class="btn" id="nextQ" ${prev ? "" : "hidden"}>${state.idx === total-1 ? "Finish" : "Next →"}</button>
+      </div>
     </div>
     <p class="saved" id="saved"></p>`;
   $("#view").querySelectorAll(".opt").forEach(b => b.onclick = () => answer(+b.dataset.i));
   $("#prevQ").onclick = () => { if (state.idx > 0) { state.idx--; openQuestion(); } };
   $("#nextQ").onclick = next;
-  $("#endCh").onclick = () => finish();
+  $("#skipQ").onclick = skip;
+  $("#endCh").onclick = endScreen;
   if (prev) showVerdict(q, prev.c);
   updClock(); startTick();
   window.scrollTo(0,0);
 }
 function answer(i){
   if (state.answered) return;
-  const att = state.att, id = att.qids[state.idx], q = qById[id];
+  const att = state.att, id = state.queue[state.idx], q = qById[id];
   const sec = Math.round(elapsedQ()*10)/10;
+  const wasSkipped = !!(att.skipped && att.skipped[id]);
   state.answered = true; state.lastSec = sec;
-  const rec = { c: i, ok: i === q.a, sec, lvl: q.lvl, at: Date.now() };
+  const rec = { c: i, ok: i === q.a, sec, lvl: q.lvl, at: Date.now(), afterSkip: wasSkipped };
   att.answers[id] = rec; att.updated = Date.now();
-  persist(att, { answers: { [id]: rec }, updated: att.updated });
+  const patch = { answers: { [id]: rec }, updated: att.updated };
+  if (wasSkipped) { att.skipped[id] = false; patch.skipped = { [id]: false }; }
+  if (att.status === "done" && att.result) { const s2 = stats(att); att.result = resultOf(att, s2); patch.result = att.result; }
+  persist(att, patch);
   showVerdict(q, i);
-  $("#nextQ").disabled = false; $("#nextQ").focus();
+  $("#skipQ").hidden = true; const nb = $("#nextQ"); nb.hidden = false; nb.focus();
   const s = stats(att);
-  $(".status").querySelectorAll("b")[2].textContent = `${s.ok}/${s.n}`;
-  $(".prog i").style.width = (s.n/att.qids.length*100) + "%";
+  $("#score").textContent = `${s.ok}/${s.n}`; $("#skc").textContent = s.skipped;
+  $("#progbar").style.width = (s.n/att.qids.length*100) + "%";
   updClock();
+}
+function skip(){
+  if (state.answered) return;
+  const att = state.att, id = state.queue[state.idx];
+  att.skipped = att.skipped || {};
+  if (!att.skipped[id]) {
+    att.skipped[id] = true; att.updated = Date.now();
+    persist(att, { skipped: { [id]: true }, updated: att.updated });
+  }
+  next();
 }
 function showVerdict(q, i){
   const ok = i === q.a;
   $("#view").querySelectorAll(".opt").forEach((b, j) => { b.disabled = true; if (j === q.a) b.classList.add("right"); else if (j === i) b.classList.add("wrong"); });
   const others = q.o.map((t,j) => ({t,j})).filter(o => o.j !== q.a && o.j !== i);
   $("#verdict").innerHTML = `<div class="verdict">
-    <div class="head ${ok ? "ok" : "bad"}">${ok ? "Correct" : "Wrong"} · ${state.lastSec ? fmt(state.lastSec) : ""}${state.lastSec > EXAM_PACE ? " (slower than exam pace)" : ""}</div>
+    <div class="head ${ok ? "ok" : "bad"}">${ok ? "Correct" : "Wrong"} · ${fmt(state.lastSec)}${state.lastSec > EXAM_PACE ? " (slower than exam pace)" : ""}</div>
     <div class="vrow"><span>Answer</span><span><b>${"ABCD"[q.a]}.</b> ${esc(q.o[q.a])}</span></div>
     <div class="vrow"><span>Why</span><span>${esc(q.why)}</span></div>
     ${ok ? "" : `<div class="vrow"><span>Your choice</span><span><b>${"ABCD"[i]}.</b> ${esc(q.o[i])} — ${esc(q.x[i] || "")}</span></div>`}
@@ -277,22 +325,46 @@ function showVerdict(q, i){
   </div>`;
 }
 function next(){
-  const att = state.att;
-  if (state.idx < att.qids.length - 1) { state.idx++; openQuestion(); }
-  else finish();
+  if (state.idx < state.queue.length - 1) { state.idx++; openQuestion(); }
+  else if (state.qmode === "skipped" && state.reopened) finish();
+  else endScreen();
 }
 document.addEventListener("keydown", e => {
   if (state.view !== "q" || e.metaKey || e.ctrlKey || e.altKey) return;
   const k = e.key.toUpperCase();
-  if ("ABCD".includes(k) && k.length === 1 && !state.answered) answer("ABCD".indexOf(k));
+  if (k.length === 1 && "ABCD".includes(k) && !state.answered) answer("ABCD".indexOf(k));
+  else if (k === "S" && !state.answered) skip();
   else if ((e.key === "Enter" || e.key === "ArrowRight") && state.answered && document.activeElement?.id !== "endCh") { e.preventDefault(); next(); }
 });
+
+/* ---------- end screen: offer skipped questions before finishing ---------- */
+function endScreen(){
+  stopTick(); state.view = "end";
+  const att = state.att, sk = skippedIds(att), left = pending(att).filter(id => !sk.includes(id));
+  if (!sk.length && !left.length) { finish(); return; }
+  $("#view").innerHTML = `<div class="panel">
+    <h2>Before you finish Ch ${att.ch}</h2>
+    ${sk.length ? `<p>You skipped <b>${sk.length}</b> question${sk.length>1?"s":""}. Answer them now, or finish and keep them for later — the chapter card will show an <b>Answer skipped</b> button.</p>
+      <ol>${sk.map(id => `<li>${esc(qById[id].q)}</li>`).join("")}</ol>` : ""}
+    ${left.length ? `<p><b>${left.length}</b> question${left.length>1?"s":""} not yet seen. They will also stay open.</p>` : ""}
+    <div class="qnav">
+      <div>${sk.length ? `<button class="btn warn" id="doSk">Answer ${sk.length} skipped now</button>` : ""}${left.length ? `<button class="btn ghost" id="doLeft">Continue unseen questions</button>` : ""}</div>
+      <div><button class="btn" id="doFin">Finish — see feedback</button></div>
+    </div></div>`;
+  if (sk.length) $("#doSk").onclick = () => answerSkipped(att);
+  if (left.length) $("#doLeft").onclick = () => { state.queue = left; state.idx = 0; state.qmode = "main"; openQuestion(); };
+  $("#doFin").onclick = () => finish();
+  window.scrollTo(0,0);
+}
+function resultOf(att, s){
+  return { answered: s.n, correct: s.ok, wrong: s.wrong, skippedOpen: s.skipped, unseen: s.left - s.skipped, totalSec: Math.round(s.sec), negScore: Math.round(s.neg*10)/10,
+    examLevel: { n: s.S.n, correct: s.S.ok }, harder: { n: s.H.n, correct: s.H.ok } };
+}
 function finish(){
   stopTick();
   const att = state.att, s = stats(att);
   att.status = "done"; att.finished = Date.now(); att.updated = att.finished;
-  att.result = { answered: s.n, correct: s.ok, wrong: s.wrong, totalSec: Math.round(s.sec), negScore: Math.round(s.neg*10)/10,
-    examLevel: { n: s.S.n, correct: s.S.ok }, harder: { n: s.H.n, correct: s.H.ok } };
+  att.result = resultOf(att, s);
   persist(att, { status: "done", finished: att.finished, updated: att.updated, result: att.result });
   renderSummary(att);
 }
@@ -300,42 +372,48 @@ function finish(){
 /* ---------- summary ---------- */
 function renderSummary(att){
   state.view = "sum"; stopTick();
-  const s = stats(att), ch = BANK.chapters.find(c => c.ch === att.ch);
-  const acc = s.n ? s.ok/s.n : 0;
-  const avg = s.n ? s.sec/s.n : 0;
-  const expected = Math.round(acc * ch.marks * 10)/10;
+  const s = stats(att), ch = chInfo(att.ch);
+  const acc = s.n ? s.ok/s.n : 0, avg = s.n ? s.sec/s.n : 0;
+  const expected = Math.round(acc * (parseFloat(ch.marks) || 0) * 10)/10;
   const wrongIds = att.qids.filter(id => att.answers[id] && !att.answers[id].ok);
+  const sk = skippedIds(att);
   const slow = att.qids.filter(id => att.answers[id]).map(id => ({id, ...att.answers[id]})).sort((a,b) => b.sec - a.sec).slice(0,5);
   const pctL = l => s[l].n ? Math.round(s[l].ok/s[l].n*100) + "%" : "–";
+  const afterSkip = att.qids.filter(id => att.answers[id] && att.answers[id].afterSkip);
   $("#view").innerHTML = `
     <section style="margin-top:18px">
       <p class="lvl">Result · Ch ${att.ch} ${esc(ch.name)}${att.mode === "retry-wrong" ? " · retry wrong" : ""}</p>
-      <h2>${s.ok}/${s.n} correct · ${Math.round(acc*100)}%</h2>
+      <h2>${s.ok}/${s.n} correct · ${Math.round(acc*100)}%${sk.length ? ` · ${sk.length} skipped open` : ""}</h2>
       <div class="tiles">
-        <div class="tile ${acc>=0.6?"good":"poor"}"><b>${Math.round(acc*100)}%</b><span>accuracy (pass = 60%)</span></div>
+        <div class="tile ${acc>=0.6?"good":"poor"}"><b>${Math.round(acc*100)}%</b><span>accuracy on answered (pass = 60%)</span></div>
         <div class="tile"><b>${(Math.round(s.neg*10)/10).toFixed(1)}</b><span>score with −0.1 per wrong</span></div>
         <div class="tile"><b>${fmt(s.sec)}</b><span>total time</span></div>
         <div class="tile ${avg<=EXAM_PACE?"good":"poor"}"><b>${Math.round(avg)} s</b><span>per question (exam: ${EXAM_PACE} s)</span></div>
-        <div class="tile"><b>≈ ${expected} / ${ch.marks}</b><span>marks this chapter at this accuracy</span></div>
+        <div class="tile skip"><b>${sk.length}</b><span>skipped, still open</span></div>
+        <div class="tile"><b>≈ ${expected} / ${esc(String(ch.marks))}</b><span>marks this chapter at this accuracy</span></div>
       </div>
       <div class="tbl"><table>
         <thead><tr><th>Level</th><th class="n">Answered</th><th class="n">Correct</th><th class="n">Accuracy</th><th class="n">Avg time</th></tr></thead>
         <tbody>
           <tr><td>Exam level</td><td class="n">${s.S.n}</td><td class="n">${s.S.ok}</td><td class="n">${pctL("S")}</td><td class="n">${s.S.n ? Math.round(s.S.sec/s.S.n) + " s" : "–"}</td></tr>
           <tr><td>Harder</td><td class="n">${s.H.n}</td><td class="n">${s.H.ok}</td><td class="n">${pctL("H")}</td><td class="n">${s.H.n ? Math.round(s.H.sec/s.H.n) + " s" : "–"}</td></tr>
+          ${afterSkip.length ? `<tr><td>Answered after skipping</td><td class="n">${afterSkip.length}</td><td class="n">${afterSkip.filter(id => att.answers[id].ok).length}</td><td class="n">${Math.round(afterSkip.filter(id => att.answers[id].ok).length/afterSkip.length*100)}%</td><td class="n">–</td></tr>` : ""}
         </tbody>
       </table></div>
-      <h3 style="margin-top:16px">Slowest questions</h3>
-      <div class="tbl"><table><thead><tr><th>Question</th><th class="n">Time</th><th>Result</th></tr></thead><tbody>
-        ${slow.map(a => `<tr><td>${esc(qById[a.id].q)}</td><td class="n">${fmt(a.sec)}</td><td>${a.ok ? "Correct" : "Wrong"}</td></tr>`).join("") || `<tr><td colspan="3">No answers yet.</td></tr>`}
-      </tbody></table></div>
       <div class="qnav">
         <button class="btn ghost" id="home">← All chapters</button>
-        <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <div>
+          ${sk.length ? `<button class="btn warn" id="doSk">Answer ${sk.length} skipped</button>` : ""}
           ${wrongIds.length ? `<button class="btn" id="retry">Retry ${wrongIds.length} wrong</button>` : ""}
           <button class="btn ghost" id="again">Redo chapter</button>
         </div>
       </div>
+      ${sk.length ? `<h3 style="margin-top:16px">Skipped, still open (${sk.length})</h3>
+        <div class="review">${sk.map(id => `<div class="rv sk"><p>${esc(qById[id].q)}</p></div>`).join("")}</div>` : ""}
+      <h3 style="margin-top:16px">Slowest questions</h3>
+      <div class="tbl"><table><thead><tr><th>Question</th><th class="n">Time</th><th>Result</th></tr></thead><tbody>
+        ${slow.map(a => `<tr><td>${esc(qById[a.id].q)}</td><td class="n">${fmt(a.sec)}</td><td>${a.ok ? "Correct" : "Wrong"}</td></tr>`).join("") || `<tr><td colspan="3">No answers yet.</td></tr>`}
+      </tbody></table></div>
       <h3 style="margin-top:16px">Your wrong answers (${wrongIds.length})</h3>
       <div class="review">${wrongIds.map(id => { const q = qById[id], a = att.answers[id]; return `<div class="rv">
         <p><b>${esc(q.q)}</b></p>
@@ -345,6 +423,7 @@ function renderSummary(att){
   $("#home").onclick = renderHome;
   $("#again").onclick = () => startChapter(att.ch);
   if (wrongIds.length) $("#retry").onclick = () => startChapter(att.ch, wrongIds);
+  if (sk.length) $("#doSk").onclick = () => answerSkipped(att);
   window.scrollTo(0,0);
 }
 
