@@ -1,0 +1,723 @@
+<title>NISM V-D Cram Sheet</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@600;700&family=Source+Sans+3:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: one reading column, sections in marks order, sticky jump bar, dense tables */
+:root{
+  --bg:#f2f4f6; --surface:#ffffff; --fg:#15202b; --muted:#56636f; --line:#d3dae1;
+  --accent:#b86e00; --accent-soft:#fbefd9; --teal:#0d6a73; --teal-soft:#dff0f1;
+  --warn:#b3261e; --warn-soft:#fbe4e2; --ok:#2e7d32;
+  --f-display:"Barlow Semi Condensed","Arial Narrow",system-ui,sans-serif;
+  --f-body:"Source Sans 3",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0e141a; --surface:#16202a; --fg:#e4eaef; --muted:#97a5b1; --line:#2a3743;
+  --accent:#f2a73d; --accent-soft:#3a2c14; --teal:#5bbcc6; --teal-soft:#123338;
+  --warn:#ff8a80; --warn-soft:#3b1b19; --ok:#81c784; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0e141a; --surface:#16202a; --fg:#e4eaef; --muted:#97a5b1; --line:#2a3743;
+  --accent:#f2a73d; --accent-soft:#3a2c14; --teal:#5bbcc6; --teal-soft:#123338;
+  --warn:#ff8a80; --warn-soft:#3b1b19; --ok:#81c784; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:15px;line-height:1.45}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+.wrap{max-width:980px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 60px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.15}
+h1{font-size:2rem}
+h2{font-size:1.45rem;display:flex;flex-wrap:wrap;gap:8px;align-items:baseline}
+h3{font-size:1.08rem;margin-top:14px;color:var(--teal)}
+p{margin:6px 0}
+.sub{color:var(--muted)}
+nav.jump{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--surface);border-bottom:1px solid var(--line);margin:0 calc(-1*max(16px,env(safe-area-inset-left,0px)));padding:8px max(16px,env(safe-area-inset-left,0px));display:flex;gap:6px;overflow-x:auto;white-space:nowrap}
+nav.jump a{font:600 .8rem var(--f-body);text-decoration:none;color:var(--fg);border:1px solid var(--line);border-radius:4px;padding:3px 8px}
+nav.jump a:hover,nav.jump a:focus-visible{border-color:var(--accent);outline:none}
+section{margin-top:28px;padding-top:6px;border-top:2px solid var(--fg)}
+.mk{font:600 .78rem var(--f-mono);background:var(--accent-soft);color:var(--accent);padding:2px 7px;border-radius:3px;letter-spacing:.02em}
+.lvl{font:600 .72rem var(--f-body);text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.v{font:600 .68rem var(--f-body);text-transform:uppercase;letter-spacing:.05em;color:var(--warn);border:1px solid var(--warn);border-radius:3px;padding:0 4px;white-space:nowrap}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-top:14px}
+.fact{background:var(--surface);border:1px solid var(--line);padding:8px 10px}
+.fact b{display:block;font:700 1.35rem var(--f-display);font-variant-numeric:tabular-nums}
+.fact span{font-size:.8rem;color:var(--muted)}
+.tbl{overflow-x:auto;margin-top:8px}
+table{border-collapse:collapse;width:100%;font-size:.88rem;background:var(--surface)}
+th,td{border:1px solid var(--line);padding:5px 8px;text-align:left;vertical-align:top}
+th{background:var(--teal-soft);font-weight:700}
+td.n,th.n{font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+code,.f{font-family:var(--f-mono);font-size:.85em}
+.f{display:block;background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--teal);padding:6px 10px;margin:6px 0;overflow-x:auto;white-space:pre}
+.trap{background:var(--warn-soft);border-left:3px solid var(--warn);padding:6px 10px;margin:8px 0;font-size:.9rem}
+.trap b{color:var(--warn)}
+.tip{background:var(--accent-soft);border-left:3px solid var(--accent);padding:6px 10px;margin:8px 0;font-size:.9rem}
+.kw{display:flex;flex-wrap:wrap;gap:5px;margin:6px 0}
+.kw span{font-size:.8rem;border:1px solid var(--line);background:var(--surface);padding:1px 7px;border-radius:10px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+.grid2>*{min-width:0}
+.pay{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin-top:8px}
+.pay figure{margin:0;background:var(--surface);border:1px solid var(--line);padding:6px}
+.pay figcaption{font:600 .78rem var(--f-body);margin-bottom:2px}
+.pay small{display:block;font-size:.72rem;color:var(--muted)}
+.pay svg{width:100%;height:auto;display:block}
+.pay .ax{stroke:var(--muted);stroke-width:.8;stroke-dasharray:2 2;fill:none}
+.pay .ln{stroke:var(--accent);stroke-width:2.2;fill:none}
+.pay .k{fill:var(--muted);font:7px var(--f-mono)}
+ul.tight{margin:4px 0;padding-left:18px}
+ul.tight li{margin:2px 0}
+.up{color:var(--ok);font-weight:700}.dn{color:var(--warn);font-weight:700}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+</style>
+
+<div class="wrap">
+<header>
+  <p class="lvl">NISM-Series-V-D · Mutual Fund – Specialized Investment Fund Distributors</p>
+  <h1>NISM V-D Cram Sheet</h1>
+  <p class="sub">Ordered by marks. Read top to bottom. A chapter moves up only when a high-mark chapter needs it first. <span class="v">verify</span> = a number that changes often or that I could not check against the workbook.</p>
+  <div class="facts">
+    <div class="fact"><b>150</b><span>questions × 1 mark</span></div>
+    <div class="fact"><b>3 h</b><span>duration</span></div>
+    <div class="fact"><b>−0.10</b><span>per wrong answer (10%)</span></div>
+    <div class="fact"><b>90</b><span>pass mark (60%)</span></div>
+    <div class="fact"><b>55%</b><span>of marks are derivatives</span></div>
+  </div>
+  <div class="tip"><b>Never leave a question blank.</b> Random guess: 0.25 × 1 − 0.75 × 0.1 = <b>+0.175</b> expected marks. If you can cut one wrong option, it goes up to +0.27.</div>
+</header>
+
+<nav class="jump" aria-label="Sections">
+  <a href="#plan">Plan</a><a href="#basics">Ch13 Basics</a><a href="#futures">Ch15 Futures</a><a href="#options">Ch16 Options</a><a href="#strategies">Ch17 Strategies</a><a href="#index">Ch14 Index</a><a href="#bonds">Ch18 Bonds</a><a href="#irf">Ch19–22 IRD</a><a href="#sif">SIF</a><a href="#services">Ch9 Services</a><a href="#selection">Ch12 Selection</a><a href="#mfnum">MF numbers</a><a href="#last">Last 10 min</a>
+</nav>
+
+<!-- PLAN -->
+<section id="plan">
+  <h2>Reading plan <span class="mk">2 h</span></h2>
+  <div class="tbl"><table>
+    <thead><tr><th>#</th><th>Block</th><th>Chapters</th><th class="n">Marks</th><th class="n">Time</th><th>Your level</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>Derivatives basics (foundation)</td><td>13</td><td class="n">10</td><td class="n">10 min</td><td>New</td></tr>
+      <tr><td>2</td><td>Forwards &amp; futures</td><td>15</td><td class="n">15</td><td class="n">20 min</td><td>New</td></tr>
+      <tr><td>3</td><td>Options</td><td>16</td><td class="n">13</td><td class="n">20 min</td><td>New</td></tr>
+      <tr><td>4</td><td>Strategies + index</td><td>17, 14</td><td class="n">≈14</td><td class="n">15 min</td><td>New</td></tr>
+      <tr><td>5</td><td>Bonds → interest rate derivatives</td><td>18–22</td><td class="n">≈30</td><td class="n">25 min</td><td>New</td></tr>
+      <tr><td>6</td><td>SIF (the new product)</td><td>within 1–12</td><td class="n">?</td><td class="n">8 min</td><td>New</td></tr>
+      <tr><td>7</td><td>MF: services, selection, numbers</td><td>9, 12, rest</td><td class="n">≈68</td><td class="n">20 min</td><td>Strong: skim</td></tr>
+      <tr><td>8</td><td>Last 10 min recap</td><td>all</td><td class="n">–</td><td class="n">2 min</td><td>Re-read before the exam</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Marks per chapter (official chapter list; some marks not confirmed)</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>Module</th><th>Ch</th><th>Title</th><th class="n">Marks</th><th>Level</th></tr></thead>
+    <tbody>
+      <tr><td rowspan="5">Equity derivatives<br><b>52</b></td><td>15</td><td>Forwards and Futures</td><td class="n">15</td><td>Int–Hard</td></tr>
+      <tr><td>16</td><td>Introduction to Options</td><td class="n">13</td><td>Hard</td></tr>
+      <tr><td>13</td><td>Basics of Derivatives</td><td class="n">10</td><td>Easy</td></tr>
+      <tr><td>17</td><td>Strategies (futures + options)</td><td class="n" rowspan="2">≈14 together</td><td>Hard</td></tr>
+      <tr><td>14</td><td>Understanding Index</td><td>Int</td></tr>
+      <tr><td rowspan="5">Interest rate derivatives<br><b>≈30</b></td><td>20</td><td>Exchange traded IR futures</td><td class="n">10</td><td>Hard</td></tr>
+      <tr><td>18</td><td>Interest rates, instruments, fixed income markets</td><td class="n">?</td><td>Int</td></tr>
+      <tr><td>21</td><td>Exchange traded IR options</td><td class="n">?</td><td>Hard</td></tr>
+      <tr><td>22</td><td>Strategies using IRDs</td><td class="n">?</td><td>Hard</td></tr>
+      <tr><td>19</td><td>Interest rate derivatives (OTC: FRA, IRS)</td><td class="n">2</td><td>Int</td></tr>
+      <tr><td rowspan="12">Mutual funds<br><b>≈68</b></td><td>9</td><td>Investor Services</td><td class="n">10</td><td>Easy–Int</td></tr>
+      <tr><td>12</td><td>Scheme Selection</td><td class="n">10</td><td>Int</td></tr>
+      <tr><td>1</td><td>Investment Landscape</td><td class="n">5</td><td>Easy</td></tr>
+      <tr><td>2</td><td>Concept &amp; Role of MF</td><td class="n">4</td><td>Easy</td></tr>
+      <tr><td>3</td><td>Legal Structure</td><td class="n">3</td><td>Int</td></tr>
+      <tr><td>8</td><td>Taxation</td><td class="n">3 <span class="v">verify</span></td><td>Int</td></tr>
+      <tr><td>4, 5, 6, 7, 10, 11</td><td>Regulation, scheme info, distribution, NAV/TER, risk-return, performance</td><td class="n">≈33 together</td><td>Int</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- CH13 -->
+<section id="basics">
+  <h2>Ch13 Basics of derivatives <span class="mk">10 marks</span> <span class="lvl">Easy · read first</span></h2>
+  <div class="kw"><span>value derived from underlying</span><span>zero-sum game</span><span>leverage</span><span>price discovery</span><span>risk transfer</span></div>
+  <div class="grid2">
+    <div class="tbl"><table>
+      <thead><tr><th>Type</th><th>Key point</th></tr></thead>
+      <tbody>
+        <tr><td>Forward</td><td>OTC, custom, no daily MTM, <b>counterparty risk</b></td></tr>
+        <tr><td>Futures</td><td>Exchange, standard, daily MTM, clearing corp guarantees</td></tr>
+        <tr><td>Option</td><td>Right, not obligation (buyer). Premium paid upfront</td></tr>
+        <tr><td>Swap</td><td>Exchange of cash flows (e.g. fixed ↔ floating). OTC</td></tr>
+      </tbody>
+    </table></div>
+    <div class="tbl"><table>
+      <thead><tr><th>Participant</th><th>Goal</th></tr></thead>
+      <tbody>
+        <tr><td>Hedger</td><td>Reduce existing risk</td></tr>
+        <tr><td>Speculator</td><td>Take risk for profit, gives liquidity</td></tr>
+        <tr><td>Arbitrageur</td><td>Riskless profit from mispricing, aligns prices</td></tr>
+        <tr><td>Margin trader</td><td>Uses leverage of margin</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+  <h3>Exchange-traded vs OTC</h3>
+  <div class="tbl"><table>
+    <thead><tr><th></th><th>Exchange-traded</th><th>OTC</th></tr></thead>
+    <tbody>
+      <tr><td>Terms</td><td>Standard</td><td>Custom</td></tr>
+      <tr><td>Counterparty risk</td><td>None to the trader (clearing corp = <b>novation</b>)</td><td>Yes</td></tr>
+      <tr><td>Margin / MTM</td><td>Yes, daily</td><td>Usually no</td></tr>
+      <tr><td>Liquidity, transparency</td><td>High</td><td>Low</td></tr>
+    </tbody>
+  </table></div>
+  <h3>India timeline</h3>
+  <div class="tbl"><table>
+    <tbody>
+      <tr><td>1999</td><td>SCRA amended: derivatives = "securities"</td><td>L.C. Gupta Committee (framework); J.R. Varma Committee (risk containment / margins)</td></tr>
+      <tr><td>Jun 2000</td><td colspan="2">Index futures (first)</td></tr>
+      <tr><td>Jun 2001</td><td colspan="2">Index options</td></tr>
+      <tr><td>Jul 2001</td><td colspan="2">Stock options</td></tr>
+      <tr><td>Nov 2001</td><td colspan="2">Stock futures</td></tr>
+    </tbody>
+  </table></div>
+  <h3>Margins (clearing corporation)</h3>
+  <div class="tbl"><table>
+    <tbody>
+      <tr><td>Initial margin</td><td>SPAN (portfolio worst-case loss, VaR based) + exposure margin. Collected upfront</td></tr>
+      <tr><td>MTM</td><td>Daily profit/loss settled in cash, next day</td></tr>
+      <tr><td>Who pays</td><td>Futures: both sides. Options: <b>only seller</b> pays margin; buyer pays premium</td></tr>
+    </tbody>
+  </table></div>
+  <div class="trap"><b>Trap:</b> derivatives do not create or destroy wealth (zero-sum). Hedging removes downside <i>and</i> upside (futures). Options hedge removes downside only, at the cost of premium.</div>
+</section>
+
+<!-- CH15 -->
+<section id="futures">
+  <h2>Ch15 Forwards &amp; futures <span class="mk">15 marks</span> <span class="lvl">Highest-mark chapter</span></h2>
+  <h3>Pricing: cost of carry</h3>
+  <span class="f">F = S × e^(r·t)              continuous (workbook uses this)
+F = S × (1 + r·t)            simple (exam approximation)
+F = (S − PV of dividend) × e^(r·t)     with dividend
+
+Example: S = 1,000, r = 8%, t = 3 months (0.25)
+F ≈ 1,000 × e^0.02 = 1,020.20     (simple: 1,020)</span>
+  <div class="tbl"><table>
+    <thead><tr><th>Term</th><th>Meaning</th></tr></thead>
+    <tbody>
+      <tr><td>Basis</td><td><b>Spot − Futures</b>. Goes to <b>0 at expiry</b> (convergence)</td></tr>
+      <tr><td>Contango (normal)</td><td>Futures &gt; Spot · basis negative</td></tr>
+      <tr><td>Backwardation</td><td>Futures &lt; Spot · basis positive (high dividend, shortage)</td></tr>
+      <tr><td>Cost of carry</td><td>Interest − dividend/income</td></tr>
+      <tr><td>Fair value</td><td>Price from cost-of-carry model</td></tr>
+    </tbody>
+  </table></div>
+  <h3>Arbitrage</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>Situation</th><th>Trade</th><th>Name</th></tr></thead>
+    <tbody>
+      <tr><td>Futures <b>overpriced</b> (F &gt; fair)</td><td>Buy spot + sell futures</td><td>Cash-and-carry</td></tr>
+      <tr><td>Futures <b>underpriced</b> (F &lt; fair)</td><td>Sell spot + buy futures</td><td>Reverse cash-and-carry</td></tr>
+    </tbody>
+  </table></div>
+  <div class="tip">Arbitrage funds (MF) do cash-and-carry: buy shares, sell futures. Return ≈ money-market rate. Taxed as equity.</div>
+  <h3>Hedging with index futures</h3>
+  <span class="f">No. of contracts = (Portfolio value × Beta) ÷ (Futures price × Lot size)
+
+Example: ₹1 crore portfolio, β 1.2, Nifty futures 25,000, lot 75
+Contract value = 25,000 × 75 = ₹18.75 lakh
+Contracts = 1.2 crore ÷ 18.75 lakh = 6.4 → sell 6</span>
+  <div class="tbl"><table>
+    <thead><tr><th>You hold / fear</th><th>Hedge</th></tr></thead>
+    <tbody>
+      <tr><td>Long shares, fear fall</td><td><b>Sell</b> futures (short hedge)</td></tr>
+      <tr><td>Will buy later, fear rise</td><td><b>Buy</b> futures (long hedge)</td></tr>
+      <tr><td>Want to raise beta</td><td>Buy index futures</td></tr>
+      <tr><td>Want to cut beta to 0</td><td>Sell futures per formula above</td></tr>
+    </tbody>
+  </table></div>
+  <h3>Open interest (OI) reading</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>Price</th><th>OI</th><th>Reading</th></tr></thead>
+    <tbody>
+      <tr><td class="up">↑</td><td class="up">↑</td><td>Long build-up · bullish</td></tr>
+      <tr><td class="dn">↓</td><td class="up">↑</td><td>Short build-up · bearish</td></tr>
+      <tr><td class="up">↑</td><td class="dn">↓</td><td>Short covering</td></tr>
+      <tr><td class="dn">↓</td><td class="dn">↓</td><td>Long unwinding</td></tr>
+    </tbody>
+  </table></div>
+  <h3>Contract specs (India)</h3>
+  <div class="tbl"><table>
+    <tbody>
+      <tr><td>Contract cycle</td><td>3 months: near, middle, far</td></tr>
+      <tr><td>Settlement</td><td>Index futures: <b>cash</b>. Stock futures: <b>physical delivery</b> (since 2019)</td></tr>
+      <tr><td>MTM</td><td>Daily, on daily settlement price</td></tr>
+      <tr><td>Final settlement</td><td>On expiry, at closing spot price of underlying</td></tr>
+      <tr><td>Min contract value</td><td>Index derivatives ₹15–20 lakh (SEBI, Nov 2024) <span class="v">verify</span></td></tr>
+      <tr><td>Expiry day</td><td>NSE moved to Tuesday (2025); workbook may still say last Thursday <span class="v">verify</span></td></tr>
+      <tr><td>Position limits</td><td>Set per client, per trading member, market-wide (MWPL for stocks: 95% → ban period)</td></tr>
+    </tbody>
+  </table></div>
+  <div class="trap"><b>Traps:</b> Forward = OTC, no MTM. Futures payoff is <b>linear</b> and <b>symmetric</b> (profit and loss both unlimited). Long futures loss when price falls. Futures price ≠ forecast of spot; it is spot + carry.</div>
+</section>
+
+<!-- CH16 -->
+<section id="options">
+  <h2>Ch16 Options <span class="mk">13 marks</span> <span class="lvl">Hard · do the payoff numbers</span></h2>
+  <div class="tbl"><table>
+    <thead><tr><th>Position</th><th>Right / obligation</th><th>View</th><th>Max profit</th><th>Max loss</th><th>Breakeven</th></tr></thead>
+    <tbody>
+      <tr><td>Long call</td><td>Right to buy</td><td>Bullish</td><td>Unlimited</td><td>Premium</td><td>K + P</td></tr>
+      <tr><td>Short call</td><td>Must sell if exercised</td><td>Neutral/bearish</td><td>Premium</td><td><b>Unlimited</b></td><td>K + P</td></tr>
+      <tr><td>Long put</td><td>Right to sell</td><td>Bearish</td><td>K − P</td><td>Premium</td><td>K − P</td></tr>
+      <tr><td>Short put</td><td>Must buy if exercised</td><td>Neutral/bullish</td><td>Premium</td><td>K − P</td><td>K − P</td></tr>
+    </tbody>
+  </table></div>
+  <span class="f">Example: Buy Nifty 25,000 call at premium 200
+Expiry 25,500 → payoff 500, profit 300
+Expiry 24,800 → lapses, loss 200 (premium)
+Breakeven = 25,200</span>
+  <h3>Moneyness and value</h3>
+  <div class="tbl"><table>
+    <thead><tr><th></th><th>Call</th><th>Put</th></tr></thead>
+    <tbody>
+      <tr><td>ITM</td><td>S &gt; K</td><td>S &lt; K</td></tr>
+      <tr><td>ATM</td><td>S = K</td><td>S = K</td></tr>
+      <tr><td>OTM</td><td>S &lt; K</td><td>S &gt; K</td></tr>
+      <tr><td>Intrinsic value</td><td>max(0, S − K)</td><td>max(0, K − S)</td></tr>
+    </tbody>
+  </table></div>
+  <span class="f">Premium = Intrinsic value + Time value
+OTM and ATM options: premium = 100% time value
+Time value → 0 at expiry</span>
+  <h3>What moves the premium</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>Factor ↑</th><th>Call</th><th>Put</th></tr></thead>
+    <tbody>
+      <tr><td>Spot price</td><td class="up">↑</td><td class="dn">↓</td></tr>
+      <tr><td>Strike price</td><td class="dn">↓</td><td class="up">↑</td></tr>
+      <tr><td>Volatility</td><td class="up">↑</td><td class="up">↑</td></tr>
+      <tr><td>Time to expiry</td><td class="up">↑</td><td class="up">↑</td></tr>
+      <tr><td>Interest rate</td><td class="up">↑</td><td class="dn">↓</td></tr>
+      <tr><td>Dividend</td><td class="dn">↓</td><td class="up">↑</td></tr>
+    </tbody>
+  </table></div>
+  <h3>Greeks</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>Greek</th><th>Measures change in premium for</th><th>Range / sign</th><th>Remember</th></tr></thead>
+    <tbody>
+      <tr><td>Delta Δ</td><td>₹1 change in spot</td><td>Call 0 to +1 · Put −1 to 0</td><td>ATM ≈ 0.5. Deep ITM → 1. Also = hedge ratio</td></tr>
+      <tr><td>Gamma Γ</td><td>Change in delta</td><td>+ for long call &amp; put</td><td>Highest ATM, near expiry</td></tr>
+      <tr><td>Theta Θ</td><td>Passage of time</td><td>− for buyer, + for seller</td><td>Time decay fastest near expiry</td></tr>
+      <tr><td>Vega ν</td><td>1% change in volatility</td><td>+ for long options</td><td>Highest ATM, long-dated</td></tr>
+      <tr><td>Rho ρ</td><td>Change in interest rate</td><td>Call + · Put −</td><td>Least important</td></tr>
+    </tbody>
+  </table></div>
+  <h3>Models and parity</h3>
+  <span class="f">Put-call parity (European):  C + K·e^(−rt) = P + S
+Models: Black-Scholes (European, continuous), Binomial (step tree)
+Volatility in B-S: only input not directly observable → implied volatility</span>
+  <div class="tbl"><table>
+    <tbody>
+      <tr><td>Style</td><td>India: index and stock options are <b>European</b> (exercise only on expiry)</td></tr>
+      <tr><td>Settlement</td><td>Index options: cash. Stock options: physical delivery</td></tr>
+      <tr><td>Buyer pays</td><td>Premium only. No margin</td></tr>
+      <tr><td>Seller pays</td><td>Margin (SPAN + exposure). Unlimited risk on short call</td></tr>
+    </tbody>
+  </table></div>
+  <div class="trap"><b>Traps:</b> American = any time till expiry; European = only on expiry. Option buyer's loss is capped; seller's profit is capped. "Writer" = seller. Higher volatility helps buyers of both calls and puts.</div>
+</section>
+
+<!-- CH17 -->
+<section id="strategies">
+  <h2>Ch17 Strategies <span class="mk">≈8–10 marks</span> <span class="lvl">Hard · learn shape → view</span></h2>
+  <p class="sub">Dashed line = zero profit. Orange = profit/loss at expiry. Left = low spot, right = high spot.</p>
+  <div class="pay" id="payoffs"></div>
+  <div class="tbl"><table>
+    <thead><tr><th>Strategy</th><th>Build</th><th>View</th><th>Net premium</th></tr></thead>
+    <tbody>
+      <tr><td>Bull call spread</td><td>Buy lower-K call + sell higher-K call</td><td>Moderately bullish</td><td>Debit</td></tr>
+      <tr><td>Bull put spread</td><td>Sell higher-K put + buy lower-K put</td><td>Moderately bullish</td><td>Credit</td></tr>
+      <tr><td>Bear put spread</td><td>Buy higher-K put + sell lower-K put</td><td>Moderately bearish</td><td>Debit</td></tr>
+      <tr><td>Bear call spread</td><td>Sell lower-K call + buy higher-K call</td><td>Moderately bearish</td><td>Credit</td></tr>
+      <tr><td>Long straddle</td><td>Buy call + put, <b>same</b> K</td><td>Big move, either way · high vol</td><td>Debit</td></tr>
+      <tr><td>Short straddle</td><td>Sell call + put, same K</td><td>No move · low vol</td><td>Credit · unlimited risk</td></tr>
+      <tr><td>Long strangle</td><td>Buy OTM call + OTM put (different K)</td><td>Big move, cheaper than straddle</td><td>Debit</td></tr>
+      <tr><td>Long butterfly</td><td>Buy 1 low-K, sell 2 mid-K, buy 1 high-K</td><td>Low vol, limited risk</td><td>Debit</td></tr>
+      <tr><td>Covered call</td><td>Own shares + sell call</td><td>Neutral/mildly bullish, earn income</td><td>Credit</td></tr>
+      <tr><td>Protective put</td><td>Own shares + buy put</td><td>Insurance against fall</td><td>Debit</td></tr>
+      <tr><td>Collar</td><td>Own shares + buy put + sell call</td><td>Low-cost insurance</td><td>≈ zero</td></tr>
+      <tr><td>Synthetic long</td><td>Buy call + sell put (same K)</td><td>Same as long futures</td><td>–</td></tr>
+    </tbody>
+  </table></div>
+  <div class="tip">Shape shortcuts: covered call = short put shape. Protective put = long call shape. Synthetic long = futures shape.</div>
+  <div class="trap"><b>Trap:</b> straddle = same strike; strangle = different strikes. Spreads cap both profit and loss.</div>
+</section>
+
+<!-- CH14 -->
+<section id="index">
+  <h2>Ch14 Understanding index <span class="mk">≈4–6 marks</span> <span class="lvl">Int</span></h2>
+  <div class="tbl"><table>
+    <thead><tr><th>Method</th><th>Weight by</th><th>Example</th></tr></thead>
+    <tbody>
+      <tr><td>Free-float market cap</td><td>Price × shares available to public</td><td>Nifty 50, Sensex (Indian standard)</td></tr>
+      <tr><td>Full market cap</td><td>Price × all shares</td><td>Older method</td></tr>
+      <tr><td>Price-weighted</td><td>Share price</td><td>Dow Jones</td></tr>
+      <tr><td>Equal-weighted</td><td>Same weight each</td><td>Nifty 50 Equal Weight</td></tr>
+    </tbody>
+  </table></div>
+  <div class="tbl"><table>
+    <thead><tr><th>Index</th><th>Stocks</th><th>Base year</th><th>Base value</th></tr></thead>
+    <tbody>
+      <tr><td>Nifty 50 (NSE)</td><td class="n">50</td><td>Nov 3, 1995</td><td class="n">1,000</td></tr>
+      <tr><td>Sensex (BSE)</td><td class="n">30</td><td>1978–79</td><td class="n">100</td></tr>
+    </tbody>
+  </table></div>
+  <span class="f">Index = Current market cap ÷ Base market cap × Base value
+Divisor is adjusted for corporate actions (rights, new issue) so index does not jump</span>
+  <div class="kw"><span>Impact cost = liquidity measure (lower = better)</span><span>Index fund tracks index</span><span>Tracking error = std dev of return difference</span><span>Rebalanced semi-annually</span><span>Diversified index → low unsystematic risk</span></div>
+  <div class="trap"><b>Trap:</b> index weight depends on free-float market cap, not share price. Splits and bonus do not change the index.</div>
+</section>
+
+<!-- CH18 -->
+<section id="bonds">
+  <h2>Ch18 Interest rates &amp; fixed income <span class="mk">≈6 marks</span> <span class="lvl">Read before IRF</span></h2>
+  <div class="tip"><b>Rule 1:</b> bond price and yield move <b>opposite</b>. Rates ↑ → price ↓.</div>
+  <span class="f">Current yield = Annual coupon ÷ Market price
+YTM = IRR of all cash flows if held to maturity
+Modified duration (MD) = Macaulay duration ÷ (1 + y/n)
+% price change ≈ − MD × Δyield
+
+Example: MD 5, yield +0.50% → price ≈ −2.5%
+PVBP / DV01 = price change for 1 basis point (0.01%)</span>
+  <div class="tbl"><table>
+    <thead><tr><th>Duration is higher when…</th><th>Duration is lower when…</th></tr></thead>
+    <tbody>
+      <tr><td>Longer maturity</td><td>Shorter maturity</td></tr>
+      <tr><td>Lower coupon</td><td>Higher coupon</td></tr>
+      <tr><td>Lower yield</td><td>Higher yield</td></tr>
+      <tr><td colspan="2">Zero-coupon bond: Macaulay duration = maturity</td></tr>
+    </tbody>
+  </table></div>
+  <h3>Money market and government securities</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>Instrument</th><th>Tenor / feature</th></tr></thead>
+    <tbody>
+      <tr><td>Call money</td><td>Overnight (1 day)</td></tr>
+      <tr><td>Notice money</td><td>2–14 days</td></tr>
+      <tr><td>Term money</td><td>15 days – 1 year</td></tr>
+      <tr><td>T-bills</td><td>91, 182, 364 days · issued at discount · Govt of India</td></tr>
+      <tr><td>CP (commercial paper)</td><td>Companies · 7 days – 1 year · discount</td></tr>
+      <tr><td>CD (certificate of deposit)</td><td>Banks · 7 days – 1 year (FIs: 1–3 yrs)</td></tr>
+      <tr><td>Repo</td><td>Borrow against G-sec, buy back later. RBI repo rate = policy rate</td></tr>
+      <tr><td>G-secs / SDLs</td><td>Central / state govt bonds · no credit risk · RBI manages issue</td></tr>
+      <tr><td>MIBOR</td><td>Mumbai Inter-Bank Offer Rate · benchmark for OIS</td></tr>
+    </tbody>
+  </table></div>
+  <div class="tbl"><table>
+    <thead><tr><th>Yield curve</th><th>Shape</th><th>Signal</th></tr></thead>
+    <tbody>
+      <tr><td>Normal</td><td>Upward sloping</td><td>Long rates &gt; short rates</td></tr>
+      <tr><td>Inverted</td><td>Downward</td><td>Recession fear</td></tr>
+      <tr><td>Flat</td><td>Level</td><td>Transition</td></tr>
+    </tbody>
+  </table></div>
+  <div class="kw"><span>Interest rate risk</span><span>Reinvestment risk (opposite to price risk)</span><span>Credit / default risk</span><span>Convexity: price ↑ more than ↓ for same yield move</span></div>
+</section>
+
+<!-- CH19-22 -->
+<section id="irf">
+  <h2>Ch19–22 Interest rate derivatives <span class="mk">≈24 marks</span> <span class="lvl">Ch20 = 10</span></h2>
+  <h3>Ch19 OTC interest rate derivatives (2 marks)</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>Product</th><th>What it is</th></tr></thead>
+    <tbody>
+      <tr><td>FRA (forward rate agreement)</td><td>Lock a future interest rate for a period. Only the interest difference is paid</td></tr>
+      <tr><td>IRS (interest rate swap)</td><td>Fixed ↔ floating payments on a notional amount. Notional is <b>not</b> exchanged</td></tr>
+      <tr><td>OIS (overnight index swap)</td><td>Floating leg = overnight MIBOR. Most common IRS in India</td></tr>
+      <tr><td>Cap / floor</td><td>Cap = max rate for a borrower; floor = min rate for a lender</td></tr>
+      <tr><td>Regulator</td><td>OTC IRD: <b>RBI</b>. Exchange IRD: RBI + SEBI</td></tr>
+    </tbody>
+  </table></div>
+  <h3>Ch20 Exchange traded interest rate futures (10 marks)</h3>
+  <div class="tbl"><table>
+    <tbody>
+      <tr><td>Underlying</td><td>GOI bonds (e.g. 6-, 10-, 13-year) and 91-day T-bill</td></tr>
+      <tr><td>Contract size</td><td>₹2 lakh face value <span class="v">verify</span></td></tr>
+      <tr><td>Bond futures settlement</td><td>Cash settled (single bond). Earlier physical with <b>CTD</b> bond <span class="v">verify</span></td></tr>
+      <tr><td>T-bill futures quote</td><td>100 − annualised discount yield · cash settled</td></tr>
+      <tr><td>Contracts</td><td>3 serial monthly contracts</td></tr>
+      <tr><td>Trading</td><td>NSE, BSE. Banks, PDs, MFs, FPIs, retail can trade</td></tr>
+    </tbody>
+  </table></div>
+  <div class="tbl"><table>
+    <thead><tr><th>Term</th><th>Meaning</th></tr></thead>
+    <tbody>
+      <tr><td>CTD (cheapest to deliver)</td><td>Bond in the deliverable basket that is cheapest for the short to deliver</td></tr>
+      <tr><td>Conversion factor</td><td>Converts each deliverable bond to the notional bond (notional coupon, e.g. 7%)</td></tr>
+      <tr><td>Invoice price</td><td>Futures price × conversion factor + accrued interest</td></tr>
+      <tr><td>Implied repo rate</td><td>Return from buying bond + selling futures. Highest IRR = CTD</td></tr>
+    </tbody>
+  </table></div>
+  <h3>Hedge with IRF</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>Fear</th><th>Who</th><th>Trade</th></tr></thead>
+    <tbody>
+      <tr><td>Rates will <b>rise</b> (bond prices fall)</td><td>Bond holder, MF, bank</td><td><b>Sell</b> IRF</td></tr>
+      <tr><td>Rates will <b>fall</b> (must invest later at lower yield)</td><td>Future investor, insurer</td><td><b>Buy</b> IRF</td></tr>
+    </tbody>
+  </table></div>
+  <span class="f">Hedge ratio (contracts) = (MD_portfolio × Value_portfolio) ÷ (MD_futures × Value_per_futures)
+   = PVBP of portfolio ÷ PVBP of one futures contract</span>
+  <h3>Ch21 Exchange traded interest rate options</h3>
+  <div class="kw"><span>Underlying: GOI bonds</span><span>European</span><span>Cash settled</span><span>Call gains when rates ↓ (bond price ↑)</span><span>Put gains when rates ↑</span><span>Buyer: premium only · seller: margin</span></div>
+  <h3>Ch22 Strategies using IRDs</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>Goal</th><th>Trade</th></tr></thead>
+    <tbody>
+      <tr><td>Cut portfolio duration</td><td>Sell IRF</td></tr>
+      <tr><td>Raise portfolio duration</td><td>Buy IRF</td></tr>
+      <tr><td>Expect curve to <b>steepen</b></td><td>Buy short-tenor futures, sell long-tenor futures</td></tr>
+      <tr><td>Expect curve to <b>flatten</b></td><td>Sell short-tenor futures, buy long-tenor futures</td></tr>
+      <tr><td>Arbitrage (cash-and-carry)</td><td>Buy bond + sell futures when futures rich (implied repo &gt; repo)</td></tr>
+      <tr><td>Borrower fears rate rise</td><td>Pay fixed in IRS / buy cap / sell IRF</td></tr>
+      <tr><td>Investor fears rate fall</td><td>Receive fixed in IRS / buy floor / buy IRF</td></tr>
+    </tbody>
+  </table></div>
+  <div class="trap"><b>Trap:</b> in IRF and IR options, think in <b>bond price</b>, not rate. Rates up = bond price down = short futures gain, put gains.</div>
+</section>
+
+<!-- SIF -->
+<section id="sif">
+  <h2>Specialized Investment Fund (SIF) <span class="mk">new topic</span> <span class="lvl">Why V-D exists · <span class="v">verify numbers</span></span></h2>
+  <div class="tbl"><table>
+    <tbody>
+      <tr><td>What</td><td>New product class between MF and PMS/AIF. Under SEBI MF Regulations, run by an MF's AMC, with a separate brand</td></tr>
+      <tr><td>Framework</td><td>SEBI circular Feb 2025; live from Apr 1, 2025</td></tr>
+      <tr><td>Min investment</td><td><b>₹10 lakh</b> per investor (PAN), across all SIF strategies of one AMC. Accredited investors exempt</td></tr>
+      <tr><td>Short exposure</td><td>Unhedged short via derivatives up to <b>25%</b> of net assets</td></tr>
+      <tr><td>Name used</td><td>"Investment strategy" (not "scheme")</td></tr>
+      <tr><td>Risk label</td><td>Risk band, levels 1–5 (not the 6-level MF riskometer)</td></tr>
+      <tr><td>Redemption</td><td>Daily/weekly/other as per strategy; notice period up to 15 working days allowed</td></tr>
+      <tr><td>AMC eligibility</td><td>Route 1: ≥3 yrs operations + avg AUM ≥ ₹10,000 cr (last 3 yrs) + clean record. Route 2: CIO with 10 yrs managing ≥ ₹5,000 cr + extra FM with 3 yrs managing ≥ ₹500 cr</td></tr>
+      <tr><td>Distributor</td><td>Needs ARN + NISM V-D (or V-A + XIII both)</td></tr>
+    </tbody>
+  </table></div>
+  <div class="tbl"><table>
+    <thead><tr><th>Category</th><th>Strategy</th><th>Key rule</th></tr></thead>
+    <tbody>
+      <tr><td rowspan="3">Equity</td><td>Equity Long-Short</td><td>≥80% equity; short up to 25%</td></tr>
+      <tr><td>Equity Ex-Top 100 Long-Short</td><td>≥65% outside top 100 stocks; short up to 25%</td></tr>
+      <tr><td>Sector Rotation Long-Short</td><td>≥80% in max 4 sectors; short at sector level up to 25%</td></tr>
+      <tr><td rowspan="2">Debt</td><td>Debt Long-Short</td><td>Short via exchange-traded debt derivatives</td></tr>
+      <tr><td>Sectoral Debt Long-Short</td><td>≥2 sectors; max 75% in one sector</td></tr>
+      <tr><td rowspan="2">Hybrid</td><td>Active Asset Allocator Long-Short</td><td>Equity, debt, derivatives, REITs/InvITs, commodity derivatives</td></tr>
+      <tr><td>Hybrid Long-Short</td><td>≥25% equity, ≥25% debt; short up to 25%</td></tr>
+    </tbody>
+  </table></div>
+  <div class="tip">SIF = why derivatives are in this exam. Long-short means: buy what you like, short (via futures/options) what you don't. Link it to Ch15–17.</div>
+</section>
+
+<!-- CH9 -->
+<section id="services">
+  <h2>Ch9 Investor services <span class="mk">10 marks</span> <span class="lvl">You know this · skim the numbers</span></h2>
+  <div class="tbl"><table>
+    <thead><tr><th>Item</th><th>Rule</th></tr></thead>
+    <tbody>
+      <tr><td>NFO open</td><td>Max 15 days (ELSS can be longer)</td></tr>
+      <tr><td>NFO allotment / refund</td><td>Within 5 business days of NFO close</td></tr>
+      <tr><td>Redemption payout</td><td>Within 3 working days (T+3). Industry practice T+2 for equity <span class="v">verify</span></td></tr>
+      <tr><td>IDCW payout</td><td>Within 7 working days of record date</td></tr>
+      <tr><td>Cut-off: equity &amp; debt</td><td>3:00 pm, NAV of the day <b>funds are realised</b></td></tr>
+      <tr><td>Cut-off: liquid &amp; overnight (purchase)</td><td>1:30 pm → NAV of the day <b>before</b> the day of realisation</td></tr>
+      <tr><td>Account statement</td><td>CAS monthly if any transaction; half-yearly if none</td></tr>
+      <tr><td>KYC</td><td>One-time via KRA; CKYC number; status validated / registered / on-hold</td></tr>
+      <tr><td>Nomination</td><td>Up to 10 nominees (2025) or opt-out declaration <span class="v">verify</span></td></tr>
+      <tr><td>Minor</td><td>Sole holder only; guardian operates; payment from minor's account (or joint with guardian); at 18 → change status</td></tr>
+      <tr><td>Micro-SIP (no PAN)</td><td>Up to ₹50,000 per year per investor (PEKRN)</td></tr>
+      <tr><td>Third-party payment</td><td>Not allowed (exceptions: parent for minor ≤ ₹50,000, employer for SIP, custodian for FPI)</td></tr>
+      <tr><td>Change of distributor</td><td>No NOC needed from old distributor</td></tr>
+      <tr><td>Transmission</td><td>On death: to nominee / joint holder / legal heir</td></tr>
+      <tr><td>Complaints</td><td>AMC first → SEBI SCORES → SMART ODR (online dispute resolution)</td></tr>
+    </tbody>
+  </table></div>
+  <div class="kw"><span>SIP · STP · SWP</span><span>Switch = redemption + purchase (taxable)</span><span>Pledge / lien</span><span>Direct plan: no commission, lower TER</span></div>
+</section>
+
+<!-- CH12 -->
+<section id="selection">
+  <h2>Ch12 Scheme selection <span class="mk">10 marks</span> <span class="lvl">SEBI categories</span></h2>
+  <div class="grid2">
+    <div class="tbl"><table>
+      <thead><tr><th>Equity</th><th>Rule</th></tr></thead>
+      <tbody>
+        <tr><td>Large cap</td><td>≥80% in top 100</td></tr>
+        <tr><td>Mid cap</td><td>≥65% in 101–250</td></tr>
+        <tr><td>Small cap</td><td>≥65% in 251+</td></tr>
+        <tr><td>Large &amp; mid</td><td>≥35% large + ≥35% mid</td></tr>
+        <tr><td>Multi cap</td><td>≥25% each in large, mid, small</td></tr>
+        <tr><td>Flexi cap</td><td>≥65% equity, any size</td></tr>
+        <tr><td>Focused</td><td>Max 30 stocks</td></tr>
+        <tr><td>ELSS</td><td>≥80% equity, 3-yr lock-in</td></tr>
+        <tr><td>Sectoral/thematic</td><td>≥80% in sector/theme</td></tr>
+        <tr><td>Value / Contra</td><td>AMC may offer one of the two</td></tr>
+      </tbody>
+    </table></div>
+    <div class="tbl"><table>
+      <thead><tr><th>Debt</th><th>Rule (Macaulay duration)</th></tr></thead>
+      <tbody>
+        <tr><td>Overnight</td><td>1-day securities</td></tr>
+        <tr><td>Liquid</td><td>Up to 91 days maturity</td></tr>
+        <tr><td>Ultra short</td><td>3–6 months</td></tr>
+        <tr><td>Low duration</td><td>6–12 months</td></tr>
+        <tr><td>Money market</td><td>Up to 1 year maturity</td></tr>
+        <tr><td>Short duration</td><td>1–3 years</td></tr>
+        <tr><td>Medium</td><td>3–4 years</td></tr>
+        <tr><td>Medium to long</td><td>4–7 years</td></tr>
+        <tr><td>Long</td><td>&gt; 7 years</td></tr>
+        <tr><td>Corporate bond</td><td>≥80% AA+ and above</td></tr>
+        <tr><td>Credit risk</td><td>≥65% AA and below</td></tr>
+        <tr><td>Banking &amp; PSU</td><td>≥80% bank/PSU/PFI debt</td></tr>
+        <tr><td>Gilt</td><td>≥80% G-secs</td></tr>
+        <tr><td>Gilt 10-yr constant</td><td>≥80% G-sec, duration 10 yrs</td></tr>
+        <tr><td>Floater</td><td>≥65% floating rate</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+  <div class="tbl"><table>
+    <thead><tr><th>Hybrid</th><th>Equity</th><th>Note</th></tr></thead>
+    <tbody>
+      <tr><td>Conservative hybrid</td><td>10–25%</td><td>Rest debt</td></tr>
+      <tr><td>Balanced hybrid</td><td>40–60%</td><td>No arbitrage. AMC offers balanced <b>or</b> aggressive</td></tr>
+      <tr><td>Aggressive hybrid</td><td>65–80%</td><td>Taxed as equity</td></tr>
+      <tr><td>Dynamic asset allocation / BAF</td><td>0–100%</td><td>Shifts with valuation</td></tr>
+      <tr><td>Multi-asset</td><td>≥10% each in 3 asset classes</td><td></td></tr>
+      <tr><td>Arbitrage</td><td>≥65% (hedged)</td><td>Cash-and-carry; equity tax</td></tr>
+      <tr><td>Equity savings</td><td>≥65% equity (incl. hedged) + ≥10% debt</td><td></td></tr>
+      <tr><td>Retirement / children's</td><td>–</td><td>5-yr lock-in (or retirement / majority)</td></tr>
+    </tbody>
+  </table></div>
+  <div class="kw"><span>Riskometer: 6 levels (Low → Very High)</span><span>Risk-o-meter reviewed monthly</span><span>Debt: PRC matrix (potential risk class: interest rate × credit)</span><span>Match fund to goal horizon + risk profile</span><span>Active vs passive: cost, tracking error</span></div>
+</section>
+
+<!-- MF NUMBERS -->
+<section id="mfnum">
+  <h2>MF chapters 1–8, 10, 11: numbers only <span class="mk">≈33+ marks</span> <span class="lvl">Skim</span></h2>
+  <h3>Ch3 Legal structure · Ch4 Regulation</h3>
+  <div class="tbl"><table>
+    <tbody>
+      <tr><td>Structure</td><td>Sponsor → Trust (trustees) → AMC. Plus custodian, RTA, auditor. Investors = beneficial owners</td></tr>
+      <tr><td>Sponsor</td><td>≥40% of AMC net worth. 5-yr track record, positive net worth, profit in 3 of 5 yrs (traditional route)</td></tr>
+      <tr><td>AMC net worth</td><td>≥ ₹50 crore</td></tr>
+      <tr><td>Trustees</td><td>≥4; 2/3 independent</td></tr>
+      <tr><td>AMC board</td><td>≥50% independent directors</td></tr>
+      <tr><td>Law</td><td>SEBI (Mutual Funds) Regulations, 1996. Trust deed under Indian Trusts Act 1882 / Registration Act</td></tr>
+      <tr><td>AMFI</td><td>Industry body (1995). Issues ARN, code of conduct</td></tr>
+      <tr><td>Single company limit</td><td>Max 10% of scheme NAV in one company's shares (not for index/sector funds)</td></tr>
+      <tr><td>Group limit</td><td>All schemes of an AMC: max 10% of one company's voting capital</td></tr>
+      <tr><td>Segregated portfolio</td><td>Side pocket after credit event (rating to below investment grade)</td></tr>
+    </tbody>
+  </table></div>
+  <h3>Ch5 Scheme info · Ch6 Distribution</h3>
+  <div class="tbl"><table>
+    <tbody>
+      <tr><td>Documents</td><td>SID (scheme), SAI (AMC/fund house), KIM (summary, comes with form)</td></tr>
+      <tr><td>Fundamental attribute change</td><td>Investors get 30-day exit window with no exit load</td></tr>
+      <tr><td>Portfolio disclosure</td><td>Monthly (all), fortnightly (debt)</td></tr>
+      <tr><td>NAV publication</td><td>Daily on AMFI + AMC site by 11 pm</td></tr>
+      <tr><td>Close-ended</td><td>Must be listed on exchange</td></tr>
+      <tr><td>ARN validity</td><td>3 years; renew via CPE / re-exam. Employees need EUIN</td></tr>
+      <tr><td>Commission</td><td>Trail only. No upfront. No entry load (since Aug 2009)</td></tr>
+      <tr><td>RIA</td><td>Charges fee, no commission; uses direct plans. MFD cannot charge fee</td></tr>
+    </tbody>
+  </table></div>
+  <h3>Ch7 NAV, TER, pricing</h3>
+  <span class="f">NAV = (Market value of assets + accrued income − liabilities − expenses) ÷ Units outstanding
+Example: assets ₹110 cr, liabilities ₹10 cr, units 5 cr → NAV ₹20
+Sale price = NAV (no entry load)
+Repurchase price = NAV × (1 − exit load)        exit load goes back to the scheme</span>
+  <div class="tbl"><table>
+    <tbody>
+      <tr><td>TER cap (top slab)</td><td>Equity 2.25% · Debt 2.00% · Index fund / ETF 1.00% <span class="v">verify (SEBI revised TER rules 2025–26)</span></td></tr>
+      <tr><td>Direct vs regular</td><td>Direct = lower TER (no commission) → higher NAV</td></tr>
+    </tbody>
+  </table></div>
+  <h3>Ch8 Taxation (after July 23, 2024)</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>Fund type</th><th>Short-term</th><th>Long-term</th></tr></thead>
+    <tbody>
+      <tr><td>Equity-oriented (≥65% Indian equity)</td><td>≤12 months · 20%</td><td>&gt;12 months · 12.5% above ₹1.25 lakh/yr</td></tr>
+      <tr><td>Debt (≤35% equity), bought on/after Apr 1, 2023</td><td colspan="2">Always slab rate, any period</td></tr>
+      <tr><td>Others (gold, hybrids 35–65%, intl FoF)</td><td>≤24 months · slab</td><td>&gt;24 months · 12.5%, no indexation</td></tr>
+      <tr><td>IDCW</td><td colspan="2">Slab rate. TDS 10% above ₹10,000/yr per AMC <span class="v">verify</span></td></tr>
+      <tr><td>STT</td><td colspan="2">Equity fund redemption 0.001% (seller)</td></tr>
+      <tr><td>ELSS</td><td colspan="2">80C deduction up to ₹1.5 lakh (old regime only)</td></tr>
+      <tr><td>Losses</td><td colspan="2">STCL vs STCG or LTCG · LTCL only vs LTCG · carry forward 8 yrs</td></tr>
+    </tbody>
+  </table></div>
+  <h3>Ch10 Risk &amp; return · Ch11 Performance</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>Measure</th><th>Formula / meaning</th></tr></thead>
+    <tbody>
+      <tr><td>Standard deviation</td><td>Total risk (volatility)</td></tr>
+      <tr><td>Beta</td><td>Market (systematic) risk. β &gt; 1 = more volatile than market</td></tr>
+      <tr><td>Sharpe</td><td>(Rp − Rf) ÷ σ · uses total risk · e.g. (15 − 7) ÷ 16 = 0.5</td></tr>
+      <tr><td>Treynor</td><td>(Rp − Rf) ÷ β · uses market risk</td></tr>
+      <tr><td>Sortino</td><td>(Rp − Rf) ÷ downside deviation</td></tr>
+      <tr><td>Jensen's alpha</td><td>Actual return − CAPM expected return</td></tr>
+      <tr><td>R-squared</td><td>How much of fund return the benchmark explains</td></tr>
+      <tr><td>Tracking error</td><td>For index funds/ETFs; lower = better</td></tr>
+      <tr><td>Returns</td><td>&lt;1 yr: absolute · ≥1 yr: CAGR · SIP: XIRR</td></tr>
+      <tr><td>Benchmark</td><td>Must be TRI (total return index) · two-tier benchmarks</td></tr>
+    </tbody>
+  </table></div>
+  <span class="f">Real return ≈ Nominal return − Inflation
+Rule of 72: years to double ≈ 72 ÷ rate (%)
+CAGR = (End ÷ Start)^(1/years) − 1</span>
+</section>
+
+<!-- LAST 10 -->
+<section id="last">
+  <h2>Last 10 minutes before the exam</h2>
+  <div class="tbl"><table>
+    <tbody>
+      <tr><td>F = S·e^(rt)</td><td>Basis = S − F → 0 at expiry</td></tr>
+      <tr><td>Futures overpriced</td><td>Buy spot, sell futures (cash-and-carry)</td></tr>
+      <tr><td>Hedge contracts</td><td>Value × β ÷ (F × lot)</td></tr>
+      <tr><td>Call BE = K + P · Put BE = K − P</td><td>Buyer max loss = premium · short call loss unlimited</td></tr>
+      <tr><td>Call ITM: S &gt; K · Put ITM: S &lt; K</td><td>Premium = IV + TV</td></tr>
+      <tr><td>Volatility ↑</td><td>Call ↑ and Put ↑</td></tr>
+      <tr><td>Delta: call 0→1, put −1→0</td><td>Gamma, vega highest ATM · theta hurts buyer</td></tr>
+      <tr><td>C + K·e^(−rt) = P + S</td><td>Put-call parity</td></tr>
+      <tr><td>Straddle = same K · strangle = different K</td><td>Both: bet on big move (long)</td></tr>
+      <tr><td>Indian options = European</td><td>Index: cash · stock: physical</td></tr>
+      <tr><td>Rates ↑ → bond price ↓</td><td>%ΔP ≈ −MD × Δy</td></tr>
+      <tr><td>Fear rate rise → sell IRF</td><td>Fear rate fall → buy IRF</td></tr>
+      <tr><td>CTD = cheapest to deliver</td><td>Invoice = F × CF + accrued interest</td></tr>
+      <tr><td>SIF min ₹10 lakh</td><td>Short up to 25% · risk band 1–5</td></tr>
+      <tr><td>Sharpe ÷ σ · Treynor ÷ β</td><td>Equity fund LTCG 12.5% &gt; ₹1.25 lakh</td></tr>
+      <tr><td>Never leave blanks</td><td>−0.1 only per wrong answer</td></tr>
+    </tbody>
+  </table></div>
+</section>
+</div>
+
+<script>
+(function(){
+  var P=[
+    ["Long futures","Bullish · linear","5,65 115,5"],
+    ["Short futures","Bearish · linear","5,5 115,65"],
+    ["Long call","Bullish · loss = premium","5,45 60,45 115,5"],
+    ["Short call","Unlimited loss up","5,25 60,25 115,65"],
+    ["Long put","Bearish · loss = premium","5,5 60,45 115,45"],
+    ["Short put","Loss if price falls","5,65 60,25 115,25"],
+    ["Bull call spread","Capped both sides","5,45 45,45 75,25 115,25"],
+    ["Bear put spread","Capped both sides","5,25 45,25 75,45 115,45"],
+    ["Long straddle","Big move, same K","5,5 60,55 115,5"],
+    ["Short straddle","No move","5,65 60,15 115,65"],
+    ["Long strangle","Big move, 2 strikes","5,5 45,50 75,50 115,5"],
+    ["Long butterfly","Price stays at middle K","5,45 35,45 60,15 85,45 115,45"],
+    ["Covered call","Shares + short call","5,65 60,25 115,25"],
+    ["Protective put","Shares + long put","5,45 60,45 115,5"]
+  ];
+  var box=document.getElementById("payoffs");
+  P.forEach(function(p){
+    var f=document.createElement("figure");
+    f.innerHTML='<figcaption>'+p[0]+'</figcaption><svg viewBox="0 0 120 70" role="img" aria-label="'+p[0]+' payoff"><line class="ax" x1="2" y1="35" x2="118" y2="35"/><polyline class="ln" points="'+p[2]+'"/><text class="k" x="104" y="44">spot</text></svg><small>'+p[1]+'</small>';
+    box.appendChild(f);
+  });
+})();
+</script>
