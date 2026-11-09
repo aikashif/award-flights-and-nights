@@ -15,6 +15,8 @@ from openpyxl import Workbook
 from openpyxl.styles import Alignment, Font, PatternFill
 from openpyxl.utils import get_column_letter
 
+from programs.american import AMERICAN, AMERICAN_SOURCES
+
 ROOT = Path(__file__).resolve().parent.parent
 USD_INR = 88  # exchange rate used for all INR values
 
@@ -366,9 +368,9 @@ ALASKA = {
     "data_last_checked": "2026-11-09",
 }
 
-PROGRAMS = [ALASKA]
+PROGRAMS = [ALASKA, AMERICAN]
 
-SOURCES = [
+ALASKA_SOURCES = [
     "https://www.alaskaair.com/atmosrewards",
     "https://news.alaskaair.com/loyalty/introducing-atmos-rewards/",
     "https://www.alaskaair.com/atmosrewards/content/partners/airlines/qatar-airways",
@@ -388,6 +390,8 @@ SOURCES = [
     "https://flightpoints.com/blogs/best-oneworld-sweet-spots/",
     "https://www.nerdwallet.com/travel/learn/guide-to-atmos-rewards",
 ]
+
+SOURCES = {"Atmos Rewards (Alaska)": ALASKA_SOURCES, "AAdvantage (American)": AMERICAN_SOURCES}
 
 HEAD_FILL = PatternFill("solid", start_color="1F3864")
 CAT_FILL = PatternFill("solid", start_color="D9E1F2")
@@ -456,9 +460,11 @@ def build_xlsx(path):
     src.append(["INR rate", f"USD 1 = INR {USD_INR}"])
     src.append(["Surcharge scale", SURCHARGE_SCALE])
     src.append([])
-    src.append(["Sources (Atmos Rewards)"])
-    for s in SOURCES:
-        src.append([s])
+    for title, links in SOURCES.items():
+        src.append([])
+        src.append([f"Sources: {title}"])
+        for s in links:
+            src.append([s])
     src["B2"].fill = CHECK_FILL
     src.column_dimensions["A"].width = 80
     src.column_dimensions["B"].width = 60
