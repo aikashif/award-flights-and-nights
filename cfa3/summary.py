@@ -21,6 +21,6 @@ for m in sorted(p.stem for p in (here / "full").glob("ch*.py")):
 render(CH,
   eyebrow="CFA® Level III · Portfolio Management Pathway · for the February 2027 exam",
   title="CFA L3 Portfolio Management Pathway Summary",
-  lead="Every reading (P1–P8) of the Schweser 2025 Portfolio Management pathway notes, explained from zero — {n} subtopics. The pathway is 30–35% of the Level III exam (about 7 of the 20 scored question sets). Each subtopic opens with 'In plain words', then tables, formulas, worked examples and exam traps. Stars combine exam weight, essay likelihood and depth in the curriculum.",
+  lead="Every reading, LOS, worked example and quiz answer (P1–P8) of the Schweser 2025 Portfolio Management pathway notes, explained from zero — {n} subtopics. The pathway is 30–35% of the Level III exam (about 7 of the 20 scored question sets). Each subtopic opens with 'In plain words', then tables, formulas, worked examples and exam traps. Stars combine exam weight, essay likelihood and depth in the curriculum.",
   foot="Source: Kaplan Schweser 2025 CFA Level III Portfolio Management SchweserNotes (readings P1–P8 and formula sheet). Weight estimates: CFA Institute's 30–35% pathway share, split by curriculum depth. The core readings (asset allocation, portfolio construction, performance, derivatives & risk, ethics) are not in this file. CFA® is a trademark of CFA Institute.",
   html_name="../cfa3/pm-pathway-summary.html", pdf_name="../cfa3/CFA-L3-PM-Pathway-Summary.pdf", footer_label="CFA L3 · PM Pathway Summary")
